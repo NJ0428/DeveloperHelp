@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도구 모음</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover { 
+            background-color: #005bb5;
+            color: black;
+        }
+        .container {
+            max-width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .tools {
+            margin-top: 20px;
+        }
+        .tools a {
+            display: inline-block;
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .tools a:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="json-viewer.html">JSON 뷰어</a>
+        <a href="xml-to-json.html">XML -> JSON 변환기</a>
+        <a href="json-to-xml.html">JSON -> XML 변환기</a>
+        <a href="url-encoder.html">URL 인코딩</a>
+        <a href="url-decoder.html">URL 디코딩</a>        
+        <a href="variable-suggester.html">변수 추천기</a>
+        <a href="http-header-parser.html">HTTP 헤더 파서</a>
+        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
+        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
+        <a href="lunch-recommender.html">점심 추천기</a>
+    </nav>
+
+    <div class="container">
+        <h1>도구 모음</h1>
+        <p>사용하려는 도구를 선택하세요:</p>
+        <div class="tools">
+            <a href="json-viewer.html">JSON 뷰어</a>
+            <a href="xml-to-json.html">XML -> JSON 변환기</a>
+            <a href="json-to-xml.html">JSON -> XML 변환기</a>
+            <a href="url-encoder.html">URL 인코딩</a>
+            <a href="url-decoder.html">URL 디코딩</a>        
+            <a href="variable-suggester.html">변수 추천기</a>
+            <a href="http-header-parser.html">HTTP 헤더 파서</a>
+            <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
+            <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
+            <a href="lunch-recommender.html">점심 추천기</a>
+        </div>
+    </div>
+</body>
+</html>
