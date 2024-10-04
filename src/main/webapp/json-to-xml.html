@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON -> XML 변환기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #005bb5;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+            max-width: 80%;
+            margin: auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #jsonInput {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        #xmlOutput {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+        .alert {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="json-viewer.html">JSON 뷰어</a>
+        <a href="xml-to-json.html">XML -> JSON 변환기</a>
+        <a href="json-to-xml.html">JSON -> XML 변환기</a>
+        <a href="url-encoder.html">URL 인코딩</a>
+        <a href="url-decoder.html">URL 디코딩</a>        
+        <a href="variable-suggester.html">변수 추천기</a>
+        <a href="http-header-parser.html">HTTP 헤더 파서</a>
+        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
+        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
+        <a href="lunch-recommender.html">점심 추천기</a>
+    </nav>
+
+    <div class="container">
+        <h1>JSON -> XML 변환기</h1>
+        <textarea id="jsonInput" placeholder="여기에 JSON 붙여넣기"></textarea>
+        <button onclick="convertJSONtoXML()">XML로 변환</button>
+        <div id="alert" class="alert"></div>
+        <textarea id="xmlOutput" placeholder="여기에 변환된 XML 출력"></textarea>
+    </div>
+
+    <script>
+        function convertJSONtoXML() {
+            const jsonInput = document.getElementById('jsonInput').value;
+            const xmlOutput = document.getElementById('xmlOutput');
+            const alertDiv = document.getElementById('alert');
+            xmlOutput.value = ''; // Clear previous content
+            alertDiv.innerHTML = ''; // Clear previous alerts
+
+            try {
+                const jsonObject = JSON.parse(jsonInput);
+                const xmlString = jsonToXml(jsonObject);
+                xmlOutput.value = formatXml(xmlString);
+            } catch (e) {
+                alertDiv.innerHTML = 'Invalid JSON: ' + e.message;
+            }
+        }
+
+        function jsonToXml(jsonObj, rootName = 'root') {
+            let xml = `<${rootName}>`;
+
+            for (let key in jsonObj) {
+                if (jsonObj.hasOwnProperty(key)) {
+                    if (Array.isArray(jsonObj[key])) {
+                        jsonObj[key].forEach(item => {
+                            xml += jsonToXml(item, key);
+                        });
+                    } else if (typeof jsonObj[key] === "object" && jsonObj[key] !== null) {
+                        xml += jsonToXml(jsonObj[key], key);
+                    } else {
+                        xml += `<${key}>${jsonObj[key]}</${key}>`;
+                    }
+                }
+            }
+
+            xml += `</${rootName}>`;
+            return xml;
+        }
+
+        function formatXml(xml) {
+            let formatted = '';
+            const reg = /(>)(<)(\/*)/g;
+            xml = xml.replace(reg, '$1\r\n$2$3');
+            let pad = 0;
+            xml.split('\r\n').forEach((node, index) => {
+                let indent = 0;
+                if (node.match(/.+<\/\w[^>]*>$/)) {
+                    indent = 0;
+                } else if (node.match(/^<\/\w/)) {
+                    if (pad !== 0) {
+                        pad -= 1;
+                    }
+                } else if (node.match(/^<\w([^>]*[^\/])?>.*$/)) {
+                    indent = 1;
+                } else {
+                    indent = 0;
+                }
+
+                const padding = new Array(pad + 1).join('  ');
+                formatted += padding + node + '\r\n';
+                pad += indent;
+            });
+
+            return formatted;
+        }
+    </script>
+</body>
+</html>
