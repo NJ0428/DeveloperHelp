@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML 태그 분석기</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        nav {
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover { 
+            background-color: #005bb5;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+            max-width: 80%;
+            margin: 40px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #tagInput {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        #tagInput:focus {
+            border-color: #0073e6;
+            outline: none;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #0073e6;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        #tagTable {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        #tagTable th, #tagTable td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            transition: background-color 0.3s;
+        }
+        #tagTable th {
+            background-color: #0073e6;
+            color: white;
+        }
+        #tagTable tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #tagTable tr:hover td {
+            background-color: #f1f1f1;
+        }
+        .indent {
+            padding-left: 20px;
+        }
+        .collapsible {
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* 파스텔 톤 색상 설정 */
+        .id {
+            background-color: #a6c8ff; /* 파스텔 블루 */
+        }
+        .class {
+            background-color: #ffb3b3; /* 파스텔 핑크 */
+        }
+        .name {
+            background-color: #ffd966; /* 파스텔 옐로우 */
+        }
+        .attribute {
+            background-color: #b3ffb3; /* 파스텔 그린 */
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="json-viewer.html">JSON 뷰어</a>
+        <a href="xml-to-json.html">XML -> JSON 변환기</a>
+        <a href="json-to-xml.html">JSON -> XML 변환기</a>
+        <a href="url-encoder.html">URL 인코딩</a>
+        <a href="url-decoder.html">URL 디코딩</a>        
+        <a href="variable-suggester.html">변수 추천기</a>
+        <a href="http-header-parser.html">HTTP 헤더 파서</a>
+        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
+        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
+        <a href="lunch-recommender.html">점심 추천기</a>
+    </nav>
+
+    <div class="container">
+        <h1>HTML 태그 분석기</h1>
+        <textarea id="tagInput" placeholder="여기에 HTML 태그를 입력하세요"></textarea>
+        <button onclick="analyzeTag()">태그 분석</button>
+        <table id="tagTable">
+            <thead>
+                <tr>
+                    <th>태그</th>
+                    <th>속성</th>
+                    <th>값</th>
+                </tr>
+            </thead>
+            <tbody id="tagTableBody">
+                <!-- 분석된 태그의 속성과 값이 여기에 표시됩니다 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function analyzeTag() {
+            const tagInput = document.getElementById('tagInput').value.trim();
+            const tableBody = document.getElementById('tagTableBody');
+            tableBody.innerHTML = ''; // Clear previous results
+
+            if (!tagInput) {
+                alert('HTML 태그를 입력하세요.');
+                return;
+            }
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(tagInput, 'text/html');
+            const body = doc.body;
+
+            if (body) {
+                analyzeElement(body, 0);
+            } else {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.setAttribute('colspan', '3');
+                cell.textContent = '유효한 HTML 태그를 입력하세요.';
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+            }
+        }
+
+        function analyzeElement(element, indentLevel) {
+            const tableBody = document.getElementById('tagTableBody');
+            const children = element.children;
+
+            Array.from(children).forEach(child => {
+                const row = document.createElement('tr');
+                
+                // 태그 이름
+                const tagNameCell = document.createElement('td');
+                tagNameCell.textContent = `<${child.tagName.toLowerCase()}>`;
+                tagNameCell.classList.add('indent', 'collapsible');
+                tagNameCell.style.paddingLeft = `${20 * indentLevel}px`;
+
+                // 이벤트 리스너 추가
+                tagNameCell.addEventListener('click', function() {
+                    const nextRows = Array.from(row.nextElementSibling ? row.nextElementSibling.parentElement.children : []);
+                    nextRows.forEach(nextRow => {
+                        if (parseInt(nextRow.dataset.level) > indentLevel) {
+                            nextRow.classList.toggle('hidden');
+                        }
+                    });
+                });
+
+                // 태그 속성
+                const attrCell = document.createElement('td');
+                const valueCell = document.createElement('td');
+
+                if (child.attributes.length > 0) {
+                    Array.from(child.attributes).forEach(attr => {
+                        const attrRow = document.createElement('tr');
+                        const attrNameCell = document.createElement('td');
+                        const attrValueCell = document.createElement('td');
+
+                        attrNameCell.textContent = attr.name;
+                        attrValueCell.textContent = attr.value;
+
+                        // 속성 유형에 따라 클래스 추가 (배경색 적용)
+                        if (attr.name === 'id') {
+                            attrNameCell.classList.add('id');
+                            attrValueCell.classList.add('id');
+                        } else if (attr.name === 'class') {
+                            attrNameCell.classList.add('class');
+                            attrValueCell.classList.add('class');
+                        } else if (attr.name === 'name') {
+                            attrNameCell.classList.add('name');
+                            attrValueCell.classList.add('name');
+                        } else {
+                            attrNameCell.classList.add('attribute');
+                            attrValueCell.classList.add('attribute');
+                        }
+
+                        attrRow.appendChild(tagNameCell.cloneNode(true)); // 태그 이름
+                        attrRow.appendChild(attrNameCell); // 속성 이름
+                        attrRow.appendChild(attrValueCell); // 속성 값
+                        attrRow.dataset.level = indentLevel; // 추가된 행의 수준을 설정
+                        tableBody.appendChild(attrRow);
+
+                        tagNameCell.textContent = ''; // 첫 줄 이후 태그 이름을 빈 칸으로 유지
+                    });
+                } else {
+                    row.appendChild(tagNameCell);
+                    row.appendChild(attrCell);
+                    row.appendChild(valueCell);
+                    row.dataset.level = indentLevel;
+                    tableBody.appendChild(row);
+                }
+
+                // 자식 요소 분석 및 숨김 설정
+                if (child.children.length > 0) {
+                    analyzeElement(child, indentLevel + 1);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
