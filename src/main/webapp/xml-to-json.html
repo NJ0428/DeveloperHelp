@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML -> JSON 변환기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        nav {
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #005bb5;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+            max-width: 80%;
+            margin: auto;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #xmlInput {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+        }
+        #jsonOutput {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+        .alert {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="json-viewer.html">JSON 뷰어</a>
+        <a href="xml-to-json.html">XML -> JSON 변환기</a>
+        <a href="json-to-xml.html">JSON -> XML 변환기</a>
+        <a href="url-encoder.html">URL 인코딩</a>
+        <a href="url-decoder.html">URL 디코딩</a>        
+        <a href="variable-suggester.html">변수 추천기</a>
+        <a href="http-header-parser.html">HTTP 헤더 파서</a>
+        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
+        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
+        <a href="lunch-recommender.html">점심 추천기</a>
+    </nav>
+
+    <div class="container">
+        <h1>XML -> JSON 변환기</h1>
+        <textarea id="xmlInput" placeholder="여기에 XML 붙여넣기"></textarea>
+        <button onclick="convertXMLtoJSON()">JSON으로 변환</button>
+        <div id="alert" class="alert"></div>
+        <textarea id="jsonOutput" placeholder="여기에 변환된 JSON 출력"></textarea>
+    </div>
+
+    <script>
+        function convertXMLtoJSON() {
+            const xmlInput = document.getElementById('xmlInput').value;
+            const jsonOutput = document.getElementById('jsonOutput');
+            const alertDiv = document.getElementById('alert');
+            jsonOutput.value = ''; // Clear previous content
+            alertDiv.innerHTML = ''; // Clear previous alerts
+
+            try {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlInput, "text/xml");
+
+                if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
+                    throw new Error("Invalid XML format.");
+                }
+
+                const jsonObject = xmlToJson(xmlDoc);
+                jsonOutput.value = JSON.stringify(jsonObject, null, 2);
+            } catch (e) {
+                alertDiv.innerHTML = 'Invalid XML: ' + e.message;
+            }
+        }
+
+        function xmlToJson(xml) {
+            let obj = {};
+            if (xml.nodeType === 1) { // element
+                if (xml.attributes.length > 0) {
+                    obj["@attributes"] = {};
+                    for (let j = 0; j < xml.attributes.length; j++) {
+                        const attribute = xml.attributes.item(j);
+                        obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+                    }
+                }
+            } else if (xml.nodeType === 3) { // text
+                obj = xml.nodeValue.trim();
+            }
+
+            if (xml.hasChildNodes()) {
+                for (let i = 0; i < xml.childNodes.length; i++) {
+                    const item = xml.childNodes.item(i);
+                    const nodeName = item.nodeName;
+                    if (typeof (obj[nodeName]) === "undefined") {
+                        obj[nodeName] = xmlToJson(item);
+                    } else {
+                        if (typeof (obj[nodeName].push) === "undefined") {
+                            const old = obj[nodeName];
+                            obj[nodeName] = [];
+                            obj[nodeName].push(old);
+                        }
+                        obj[nodeName].push(xmlToJson(item));
+                    }
+                }
+            }
+
+            return obj;
+        }
+    </script>
+</body>
+</html>
