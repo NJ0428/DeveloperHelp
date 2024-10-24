@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTTP 헤더 파서</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        nav {
+            width: 100%;
+            background-color: #333;
+            overflow: hidden;
+        }
+        nav a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            background-color: #005bb5;
+        }
+        .container {
+            padding: 20px;
+            max-width: 80%;
+            margin: 40px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #headerInput {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 14px;
+            font-family: 'Courier New', Courier, monospace;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        #headerInput:focus {
+            border-color: #0073e6;
+            outline: none;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #0073e6;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+        #headerTable {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        #headerTable th, #headerTable td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            background-color: #fff;
+            transition: background-color 0.3s;
+        }
+        #headerTable th {
+            background-color: #0073e6;
+            color: white;
+        }
+        #headerTable tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #headerTable tr:hover td {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="json-viewer.html">JSON 뷰어</a>
+        <a href="xml-to-json.html">XML -> JSON 변환기</a>
+        <a href="json-to-xml.html">JSON -> XML 변환기</a>
+        <a href="url-encoder.html">URL 인코딩</a>
+        <a href="url-decoder.html">URL 디코딩</a>        
+        <a href="variable-suggester.html">변수 추천기</a>
+        <a href="http-header-parser.html">HTTP 헤더 파서</a>
+        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
+        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
+        <a href="lunch-recommender.html">점심 추천기</a>
+    </nav>
+
+    <div class="container">
+        <h1>HTTP 헤더 파서</h1>
+        <textarea id="headerInput" placeholder="여기에 HTTP 헤더를 입력하세요"></textarea>
+        <button onclick="parseHeaders()">헤더 파싱</button>
+        <table id="headerTable">
+            <thead>
+                <tr>
+                    <th>키</th>
+                    <th>값</th>
+                </tr>
+            </thead>
+            <tbody id="headerTableBody">
+                <!-- 파싱된 헤더가 여기에 표시됩니다 -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function parseHeaders() {
+            const headerInput = document.getElementById('headerInput').value.trim();
+            const tableBody = document.getElementById('headerTableBody');
+            tableBody.innerHTML = ''; // Clear previous results
+
+            if (!headerInput) {
+                alert('HTTP 헤더를 입력하세요.');
+                return;
+            }
+
+            const lines = headerInput.split('\n');
+            lines.forEach(line => {
+                const [key, ...rest] = line.split(':');
+                const value = rest.join(':').trim();
+
+                if (key && value) {
+                    const row = document.createElement('tr');
+                    const keyCell = document.createElement('td');
+                    const valueCell = document.createElement('td');
+
+                    keyCell.textContent = key.trim();
+                    valueCell.textContent = value;
+
+                    row.appendChild(keyCell);
+                    row.appendChild(valueCell);
+                    tableBody.appendChild(row);
+                }
+            });
+
+            if (tableBody.innerHTML === '') {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.setAttribute('colspan', '2');
+                cell.textContent = '유효한 HTTP 헤더가 없습니다.';
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+            }
+        }
+    </script>
+</body>
+</html>
