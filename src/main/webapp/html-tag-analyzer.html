@@ -1,259 +1,514 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML 태그 분석기</title>
+    <title>HTML 태그 분석기 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .analysis-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .input-section, .output-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 15px;
+            font-size: 18px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-color);
             margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
         }
-        nav {
+        
+        .code-input {
             width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover { 
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: 40px auto;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            min-height: 300px;
+            border: 2px solid #e5eaef;
             border-radius: 8px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #tagInput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
             font-size: 14px;
-            font-family: 'Courier New', Courier, monospace;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
+            line-height: 1.5;
+            resize: vertical;
+            transition: all 0.3s ease;
         }
-        #tagInput:focus {
-            border-color: #0073e6;
+        
+        .code-input:focus {
             outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(93, 135, 255, 0.1);
         }
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 12px 24px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #0073e6;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #005bb5;
-        }
-        #tagTable {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        #tagTable th, #tagTable td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            transition: background-color 0.3s;
-        }
-        #tagTable th {
-            background-color: #0073e6;
+        
+        .analyze-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px auto;
         }
-        #tagTable tr:nth-child(even) {
-            background-color: #f9f9f9;
+        
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(93, 135, 255, 0.4);
         }
-        #tagTable tr:hover td {
-            background-color: #f1f1f1;
+        
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .indent {
-            padding-left: 20px;
+        
+        .results-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
         }
+        
+        .results-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
+        }
+        
+        .results-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .tag-name {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .attribute-name {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-weight: 500;
+            color: #e74c3c;
+        }
+        
+        .attribute-value {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            color: #27ae60;
+        }
+        
+        .indent-level {
+            display: inline-block;
+            width: 20px;
+        }
+        
         .collapsible {
             cursor: pointer;
+            user-select: none;
         }
-        .hidden {
+        
+        .collapsible:hover {
+            background: #f8f9fa;
+        }
+        
+        .collapsed-row {
             display: none;
         }
-
-        /* 파스텔 톤 색상 설정 */
-        .id {
-            background-color: #a6c8ff; /* 파스텔 블루 */
+        
+        .expand-icon {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
         }
-        .class {
-            background-color: #ffb3b3; /* 파스텔 핑크 */
+        
+        .expanded .expand-icon {
+            transform: rotate(90deg);
         }
-        .name {
-            background-color: #ffd966; /* 파스텔 옐로우 */
+        
+        .example-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
         }
-        .attribute {
-            background-color: #b3ffb3; /* 파스텔 그린 */
+        
+        .example-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .example-code {
+            background: white;
+            border: 1px solid #e5eaef;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 13px;
+            color: #2c3e50;
+            white-space: pre-wrap;
+            margin-bottom: 15px;
+        }
+        
+        .try-example-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .try-example-btn:hover {
+            background: #0ea588;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 768px) {
+            .analysis-container {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>HTML 태그 분석기</h1>
-        <textarea id="tagInput" placeholder="여기에 HTML 태그를 입력하세요"></textarea>
-        <button onclick="analyzeTag()">태그 분석</button>
-        <table id="tagTable">
-            <thead>
-                <tr>
-                    <th>태그</th>
-                    <th>속성</th>
-                    <th>값</th>
-                </tr>
-            </thead>
-            <tbody id="tagTableBody">
-                <!-- 분석된 태그의 속성과 값이 여기에 표시됩니다 -->
-            </tbody>
-        </table>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html" class="active"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <script>
-        function analyzeTag() {
-            const tagInput = document.getElementById('tagInput').value.trim();
-            const tableBody = document.getElementById('tagTableBody');
-            tableBody.innerHTML = ''; // Clear previous results
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">HTML 태그 분석기</h1>
+            </div>
+        </div>
 
-            if (!tagInput) {
-                alert('HTML 태그를 입력하세요.');
+        <div class="container">
+            <div class="analysis-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h2 class="section-title">HTML 코드 입력</h2>
+                    </div>
+                    
+                    <textarea id="htmlInput" class="code-input" placeholder="여기에 분석할 HTML 코드를 입력하세요...
+
+예시:
+<div class=&quot;container&quot; id=&quot;main&quot;>
+    <h1>제목</h1>
+    <p class=&quot;text&quot;>내용</p>
+</div>"></textarea>
+                    
+                    <button onclick="analyzeHTML()" class="analyze-btn">
+                        <i class="fas fa-search"></i>
+                        HTML 분석하기
+                    </button>
+                </div>
+
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-list-ul"></i>
+                        </div>
+                        <h2 class="section-title">분석 결과</h2>
+                    </div>
+                    
+                    <div id="analysisResults">
+                        <div style="text-align: center; color: var(--muted-color); padding: 50px 0;">
+                            <i class="fas fa-info-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p>HTML 코드를 입력하고 분석 버튼을 클릭하세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div id="resultsTableContainer" style="display: none;">
+                <table class="results-table" id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>태그</th>
+                            <th>속성</th>
+                            <th>값</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 HTML 코드
+                </h3>
+                
+                <div class="example-code" id="exampleCode">&lt;div class="container" id="main-content" data-theme="dark"&gt;
+    &lt;header class="site-header"&gt;
+        &lt;h1 class="title"&gt;웹사이트 제목&lt;/h1&gt;
+        &lt;nav class="navigation"&gt;
+            &lt;ul class="nav-list"&gt;
+                &lt;li&gt;&lt;a href="/" class="nav-link active"&gt;홈&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="/about" class="nav-link"&gt;소개&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href="/contact" class="nav-link"&gt;연락처&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+    &lt;main class="main-content"&gt;
+        &lt;article class="post" data-id="123"&gt;
+            &lt;h2 class="post-title"&gt;게시글 제목&lt;/h2&gt;
+            &lt;p class="post-content"&gt;게시글 내용입니다.&lt;/p&gt;
+        &lt;/article&gt;
+    &lt;/main&gt;
+&lt;/div&gt;</div>
+                
+                <button onclick="tryExample()" class="try-example-btn">
+                    <i class="fas fa-play"></i> 예제 코드로 시도해보기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script>
+        function analyzeHTML() {
+            const htmlInput = document.getElementById('htmlInput').value.trim();
+            const resultsContainer = document.getElementById('analysisResults');
+            const tableContainer = document.getElementById('resultsTableContainer');
+            const tableBody = document.getElementById('resultsTableBody');
+
+            if (!htmlInput) {
+                showNotification('HTML 코드를 입력하세요.', 'warning');
                 return;
             }
 
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(tagInput, 'text/html');
-            const body = doc.body;
+            try {
+                // Clear previous results
+                tableBody.innerHTML = '';
+                
+                // Parse HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlInput, 'text/html');
+                
+                // Check for parsing errors
+                const parserError = doc.querySelector('parsererror');
+                if (parserError) {
+                    throw new Error('HTML 파싱 오류가 발생했습니다.');
+                }
 
-            if (body) {
-                analyzeElement(body, 0);
-            } else {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.setAttribute('colspan', '3');
-                cell.textContent = '유효한 HTML 태그를 입력하세요.';
-                row.appendChild(cell);
-                tableBody.appendChild(row);
+                // Analyze elements
+                const body = doc.body;
+                if (body && body.children.length > 0) {
+                    analyzeElement(body, 0);
+                    
+                    // Show results
+                    resultsContainer.innerHTML = `
+                        <div style="text-align: center; color: var(--success-color); padding: 30px 0;">
+                            <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p><strong>분석 완료!</strong> 아래 표에서 상세 결과를 확인하세요.</p>
+                        </div>
+                    `;
+                    tableContainer.style.display = 'block';
+                    showNotification('HTML 분석이 완료되었습니다.', 'success');
+                } else {
+                    throw new Error('유효한 HTML 요소를 찾을 수 없습니다.');
+                }
+            } catch (error) {
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; color: var(--danger-color); padding: 30px 0;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                        <p><strong>오류 발생:</strong> ${error.message}</p>
+                    </div>
+                `;
+                tableContainer.style.display = 'none';
+                showNotification('HTML 분석 중 오류가 발생했습니다.', 'error');
             }
         }
 
         function analyzeElement(element, indentLevel) {
-            const tableBody = document.getElementById('tagTableBody');
+            const tableBody = document.getElementById('resultsTableBody');
             const children = element.children;
 
-            Array.from(children).forEach(child => {
-                const row = document.createElement('tr');
+            Array.from(children).forEach((child, index) => {
+                const uniqueId = `element-${indentLevel}-${index}`;
                 
-                // 태그 이름
-                const tagNameCell = document.createElement('td');
-                tagNameCell.textContent = `<${child.tagName.toLowerCase()}>`;
-                tagNameCell.classList.add('indent', 'collapsible');
-                tagNameCell.style.paddingLeft = `${20 * indentLevel}px`;
+                // Create main tag row
+                const tagRow = document.createElement('tr');
+                tagRow.className = 'collapsible';
+                tagRow.dataset.level = indentLevel;
+                tagRow.dataset.elementId = uniqueId;
 
-                // 이벤트 리스너 추가
-                tagNameCell.addEventListener('click', function() {
-                    const nextRows = Array.from(row.nextElementSibling ? row.nextElementSibling.parentElement.children : []);
-                    nextRows.forEach(nextRow => {
-                        if (parseInt(nextRow.dataset.level) > indentLevel) {
-                            nextRow.classList.toggle('hidden');
-                        }
-                    });
-                });
-
-                // 태그 속성
-                const attrCell = document.createElement('td');
+                const indentCell = document.createElement('td');
+                const indent = '  '.repeat(indentLevel);
+                indentCell.innerHTML = `
+                    ${indent}
+                    <i class="fas fa-caret-right expand-icon"></i>
+                    <span class="tag-name">&lt;${child.tagName.toLowerCase()}&gt;</span>
+                `;
+                
+                const attributeCell = document.createElement('td');
                 const valueCell = document.createElement('td');
 
+                // Add click handler for collapsible functionality
+                tagRow.addEventListener('click', () => toggleElementRows(uniqueId));
+
                 if (child.attributes.length > 0) {
-                    Array.from(child.attributes).forEach(attr => {
-                        const attrRow = document.createElement('tr');
-                        const attrNameCell = document.createElement('td');
-                        const attrValueCell = document.createElement('td');
-
-                        attrNameCell.textContent = attr.name;
-                        attrValueCell.textContent = attr.value;
-
-                        // 속성 유형에 따라 클래스 추가 (배경색 적용)
-                        if (attr.name === 'id') {
-                            attrNameCell.classList.add('id');
-                            attrValueCell.classList.add('id');
-                        } else if (attr.name === 'class') {
-                            attrNameCell.classList.add('class');
-                            attrValueCell.classList.add('class');
-                        } else if (attr.name === 'name') {
-                            attrNameCell.classList.add('name');
-                            attrValueCell.classList.add('name');
-                        } else {
-                            attrNameCell.classList.add('attribute');
-                            attrValueCell.classList.add('attribute');
-                        }
-
-                        attrRow.appendChild(tagNameCell.cloneNode(true)); // 태그 이름
-                        attrRow.appendChild(attrNameCell); // 속성 이름
-                        attrRow.appendChild(attrValueCell); // 속성 값
-                        attrRow.dataset.level = indentLevel; // 추가된 행의 수준을 설정
-                        tableBody.appendChild(attrRow);
-
-                        tagNameCell.textContent = ''; // 첫 줄 이후 태그 이름을 빈 칸으로 유지
-                    });
+                    // Show first attribute in the main row
+                    const firstAttr = child.attributes[0];
+                    attributeCell.innerHTML = `<span class="attribute-name">${firstAttr.name}</span>`;
+                    valueCell.innerHTML = `<span class="attribute-value">"${firstAttr.value}"</span>`;
                 } else {
-                    row.appendChild(tagNameCell);
-                    row.appendChild(attrCell);
-                    row.appendChild(valueCell);
-                    row.dataset.level = indentLevel;
-                    tableBody.appendChild(row);
+                    attributeCell.textContent = '—';
+                    valueCell.textContent = '—';
                 }
 
-                // 자식 요소 분석 및 숨김 설정
+                tagRow.appendChild(indentCell);
+                tagRow.appendChild(attributeCell);
+                tagRow.appendChild(valueCell);
+                tableBody.appendChild(tagRow);
+
+                // Add additional attribute rows if there are more than one
+                if (child.attributes.length > 1) {
+                    Array.from(child.attributes).slice(1).forEach(attr => {
+                        const attrRow = document.createElement('tr');
+                        attrRow.className = 'collapsed-row';
+                        attrRow.dataset.parentId = uniqueId;
+                        attrRow.dataset.level = indentLevel;
+
+                        const emptyCell = document.createElement('td');
+                        emptyCell.innerHTML = `${indent}  ↳`;
+                        
+                        const attrNameCell = document.createElement('td');
+                        attrNameCell.innerHTML = `<span class="attribute-name">${attr.name}</span>`;
+                        
+                        const attrValueCell = document.createElement('td');
+                        attrValueCell.innerHTML = `<span class="attribute-value">"${attr.value}"</span>`;
+
+                        attrRow.appendChild(emptyCell);
+                        attrRow.appendChild(attrNameCell);
+                        attrRow.appendChild(attrValueCell);
+                        tableBody.appendChild(attrRow);
+                    });
+                }
+
+                // Recursively analyze child elements
                 if (child.children.length > 0) {
                     analyzeElement(child, indentLevel + 1);
                 }
             });
         }
+
+        function toggleElementRows(elementId) {
+            const parentRow = document.querySelector(`[data-element-id="${elementId}"]`);
+            const childRows = document.querySelectorAll(`[data-parent-id="${elementId}"]`);
+            const expandIcon = parentRow.querySelector('.expand-icon');
+            
+            const isExpanded = parentRow.classList.contains('expanded');
+            
+            if (isExpanded) {
+                parentRow.classList.remove('expanded');
+                childRows.forEach(row => row.style.display = 'none');
+            } else {
+                parentRow.classList.add('expanded');
+                childRows.forEach(row => row.style.display = 'table-row');
+            }
+        }
+
+        function tryExample() {
+            const exampleHTML = document.getElementById('exampleCode').textContent;
+            document.getElementById('htmlInput').value = exampleHTML;
+            analyzeHTML();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add enter key support for input
+            document.getElementById('htmlInput').addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    analyzeHTML();
+                }
+            });
+        });
     </script>
 </body>
 </html>
