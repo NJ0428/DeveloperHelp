@@ -1,174 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTTP 헤더 파서</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: 40px auto;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #headerInput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            font-size: 14px;
-            font-family: 'Courier New', Courier, monospace;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        #headerInput:focus {
-            border-color: #0073e6;
-            outline: none;
-        }
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 12px 24px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #0073e6;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #005bb5;
-        }
-        #headerTable {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        #headerTable th, #headerTable td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            background-color: #fff;
-            transition: background-color 0.3s;
-        }
-        #headerTable th {
-            background-color: #0073e6;
-            color: white;
-        }
-        #headerTable tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-        #headerTable tr:hover td {
-            background-color: #f1f1f1;
-        }
-    </style>
+    <title>HTTP 헤더 파서 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/http-header-parser.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>HTTP 헤더 파서</h1>
-        <textarea id="headerInput" placeholder="여기에 HTTP 헤더를 입력하세요"></textarea>
-        <button onclick="parseHeaders()">헤더 파싱</button>
-        <table id="headerTable">
-            <thead>
-                <tr>
-                    <th>키</th>
-                    <th>값</th>
-                </tr>
-            </thead>
-            <tbody id="headerTableBody">
-                <!-- 파싱된 헤더가 여기에 표시됩니다 -->
-            </tbody>
-        </table>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html" class="active"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <script>
-        function parseHeaders() {
-            const headerInput = document.getElementById('headerInput').value.trim();
-            const tableBody = document.getElementById('headerTableBody');
-            tableBody.innerHTML = ''; // Clear previous results
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">HTTP 헤더 파서</h1>
+            </div>
+        </div>
 
-            if (!headerInput) {
-                alert('HTTP 헤더를 입력하세요.');
-                return;
-            }
+        <div class="container">
+            <div class="parser-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h2 class="section-title">HTTP 헤더 입력</h2>
+                    </div>
+                    
+                    <textarea id="headerInput" class="header-input" placeholder="여기에 HTTP 헤더를 입력하세요...
 
-            const lines = headerInput.split('\n');
-            lines.forEach(line => {
-                const [key, ...rest] = line.split(':');
-                const value = rest.join(':').trim();
+예시:
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+Accept: application/json
+User-Agent: Mozilla/5.0..."></textarea>
+                    
+                    <button onclick="parseHeaders()" class="parse-btn">
+                        <i class="fas fa-search"></i>
+                        헤더 파싱하기
+                    </button>
+                </div>
 
-                if (key && value) {
-                    const row = document.createElement('tr');
-                    const keyCell = document.createElement('td');
-                    const valueCell = document.createElement('td');
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-list-ul"></i>
+                        </div>
+                        <h2 class="section-title">파싱 결과</h2>
+                    </div>
+                    
+                    <div id="parseResults">
+                        <div style="text-align: center; color: var(--muted-color); padding: 50px 0;">
+                            <i class="fas fa-info-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p>HTTP 헤더를 입력하고 파싱 버튼을 클릭하세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                    keyCell.textContent = key.trim();
-                    valueCell.textContent = value;
+            <!-- Results Table -->
+            <div id="resultsTableContainer" style="display: none;">
+                <table class="results-table" id="headerTable">
+                    <thead>
+                        <tr>
+                            <th>헤더 키</th>
+                            <th>헤더 값</th>
+                        </tr>
+                    </thead>
+                    <tbody id="headerTableBody">
+                    </tbody>
+                </table>
+            </div>
 
-                    row.appendChild(keyCell);
-                    row.appendChild(valueCell);
-                    tableBody.appendChild(row);
-                }
-            });
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 HTTP 헤더
+                </h3>
+                
+                <div class="example-code" id="exampleHeaders">HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 1234
+Cache-Control: no-cache, no-store, must-revalidate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+Accept: application/json, text/plain, */*
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Referer: https://example.com/
+X-Requested-With: XMLHttpRequest
+X-CSRF-Token: abc123def456ghi789
+Cookie: sessionId=abc123; theme=dark; lang=ko</div>
+                
+                <button onclick="tryExample()" class="try-example-btn">
+                    <i class="fas fa-play"></i> 예제 헤더로 시도해보기
+                </button>
+            </div>
+        </div>
+    </div>
 
-            if (tableBody.innerHTML === '') {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.setAttribute('colspan', '2');
-                cell.textContent = '유효한 HTTP 헤더가 없습니다.';
-                row.appendChild(cell);
-                tableBody.appendChild(row);
-            }
-        }
-    </script>
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script src="js/http-header-parser.js"></script>
 </body>
 </html>
