@@ -1,0 +1,202 @@
+/* HTML Tag Analyzer - Modernize Style */
+.analysis-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.input-section, .output-section {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.section-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #5d87ff, #49beff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2a3547;
+    margin: 0;
+}
+
+.code-input {
+    width: 100%;
+    min-height: 300px;
+    border: 2px solid #e5eaef;
+    border-radius: 8px;
+    padding: 15px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.code-input:focus {
+    outline: none;
+    border-color: #5d87ff;
+    box-shadow: 0 0 0 3px rgba(93, 135, 255, 0.1);
+}
+
+.analyze-btn {
+    background: linear-gradient(135deg, #5d87ff, #49beff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 20px auto;
+}
+
+.analyze-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(93, 135, 255, 0.4);
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.results-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.results-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+}
+
+.results-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.tag-name {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-weight: 600;
+    color: #5d87ff;
+}
+
+.attribute-name {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-weight: 500;
+    color: #e74c3c;
+}
+
+.attribute-value {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    color: #27ae60;
+}
+
+.collapsible {
+    cursor: pointer;
+    user-select: none;
+}
+
+.collapsible:hover {
+    background: #f8f9fa;
+}
+
+.collapsed-row {
+    display: none;
+}
+
+.expand-icon {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.expanded .expand-icon {
+    transform: rotate(90deg);
+}
+
+.example-section {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 30px;
+}
+
+.example-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2a3547;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.example-code {
+    background: white;
+    border: 1px solid #e5eaef;
+    border-radius: 6px;
+    padding: 15px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 13px;
+    color: #2c3e50;
+    white-space: pre-wrap;
+    margin-bottom: 15px;
+}
+
+.try-example-btn {
+    background: #13deb9;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.try-example-btn:hover {
+    background: #0ea588;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .analysis-container {
+        grid-template-columns: 1fr;
+    }
+} 
