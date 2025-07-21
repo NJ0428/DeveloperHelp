@@ -1,10 +1,248 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테스트 페이지 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
 </head>
 <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">테스트 페이지</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-flask"></i> 개발자 도구 테스트</h2>
+                </div>
+                <div class="card-body">
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <i class="fas fa-check-circle" style="font-size: 4rem; color: var(--success-color); margin-bottom: 20px;"></i>
+                        <h3>테스트 페이지가 성공적으로 로드되었습니다!</h3>
+                        <p style="color: var(--muted-color); margin-bottom: 30px;">
+                            이 페이지는 Modernize 스타일이 적용된 개발자 도구 모음의 테스트 페이지입니다.
+                        </p>
+                        
+                        <div class="stats-grid" style="max-width: 600px; margin: 0 auto;">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="stat-number">11</div>
+                                <div class="stat-label">개발 도구</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="stat-number">100%</div>
+                                <div class="stat-label">Modernize 스타일</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="stat-number">반응형</div>
+                                <div class="stat-label">모바일 지원</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 40px;">
+                            <a href="index.html" class="btn btn-primary">
+                                <i class="fas fa-home"></i> 홈으로 돌아가기
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Info -->
+            <div class="card" style="margin-top: 30px;">
+                <div class="card-header">
+                    <h3><i class="fas fa-info-circle"></i> 시스템 정보</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>브라우저:</strong>
+                            <span id="browserInfo">로딩 중...</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>화면 해상도:</strong>
+                            <span id="screenInfo">로딩 중...</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>현재 시간:</strong>
+                            <span id="currentTime">로딩 중...</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>페이지 로드 시간:</strong>
+                            <span id="loadTime">계산 중...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script>
+        // System information display
+        document.addEventListener('DOMContentLoaded', function() {
+            // Browser info
+            document.getElementById('browserInfo').textContent = navigator.userAgent.split(' ').slice(-2).join(' ');
+            
+            // Screen info
+            document.getElementById('screenInfo').textContent = `${screen.width} × ${screen.height}`;
+            
+            // Current time
+            function updateTime() {
+                document.getElementById('currentTime').textContent = new Date().toLocaleString('ko-KR');
+            }
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            // Load time
+            window.addEventListener('load', function() {
+                const loadTime = performance.now();
+                document.getElementById('loadTime').textContent = `${Math.round(loadTime)}ms`;
+            });
+        });
+    </script>
+
+    <style>
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-color);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--muted-color);
+            margin-top: 5px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-item strong {
+            color: var(--dark-color);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(93, 135, 255, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+            }
+        }
  테스트 커밋 pull 테스튼
 </body>
 </html>

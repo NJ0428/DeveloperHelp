@@ -1,155 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON -> XML 변환기</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #jsonInput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-        }
-        #xmlOutput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            background-color: #f9f9f9;
-        }
-        .alert {
-            color: red;
-            margin-top: 10px;
-        }
-    </style>
+    <title>JSON → XML 변환기 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/json-to-xml.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>JSON -> XML 변환기</h1>
-        <textarea id="jsonInput" placeholder="여기에 JSON 붙여넣기"></textarea>
-        <button onclick="convertJSONtoXML()">XML로 변환</button>
-        <div id="alert" class="alert"></div>
-        <textarea id="xmlOutput" placeholder="여기에 변환된 XML 출력"></textarea>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html" class="active"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <script>
-        function convertJSONtoXML() {
-            const jsonInput = document.getElementById('jsonInput').value;
-            const xmlOutput = document.getElementById('xmlOutput');
-            const alertDiv = document.getElementById('alert');
-            xmlOutput.value = ''; // Clear previous content
-            alertDiv.innerHTML = ''; // Clear previous alerts
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">JSON → XML 변환기</h1>
+            </div>
+        </div>
 
-            try {
-                const jsonObject = JSON.parse(jsonInput);
-                const xmlString = jsonToXml(jsonObject);
-                xmlOutput.value = formatXml(xmlString);
-            } catch (e) {
-                alertDiv.innerHTML = 'Invalid JSON: ' + e.message;
-            }
-        }
+        <div class="container">
+            <div class="converter-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h2 class="section-title">JSON 입력</h2>
+                    </div>
+                    
+                    <textarea id="jsonInput" class="code-editor" placeholder="여기에 JSON 데이터를 입력하세요...
 
-        function jsonToXml(jsonObj, rootName = 'root') {
-            let xml = `<${rootName}>`;
+예시:
+{
+  &quot;name&quot;: &quot;홍길동&quot;,
+  &quot;age&quot;: 30,
+  &quot;city&quot;: &quot;서울&quot;
+}"></textarea>
+                    
+                    <button onclick="convertJSONtoXML()" class="convert-btn">
+                        <i class="fas fa-exchange-alt"></i>
+                        XML로 변환하기
+                    </button>
+                </div>
 
-            for (let key in jsonObj) {
-                if (jsonObj.hasOwnProperty(key)) {
-                    if (Array.isArray(jsonObj[key])) {
-                        jsonObj[key].forEach(item => {
-                            xml += jsonToXml(item, key);
-                        });
-                    } else if (typeof jsonObj[key] === "object" && jsonObj[key] !== null) {
-                        xml += jsonToXml(jsonObj[key], key);
-                    } else {
-                        xml += `<${key}>${jsonObj[key]}</${key}>`;
-                    }
-                }
-            }
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-file-code"></i>
+                        </div>
+                        <h2 class="section-title">XML 출력</h2>
+                    </div>
+                    
+                    <textarea id="xmlOutput" class="code-editor code-output" placeholder="변환된 XML이 여기에 표시됩니다..." readonly></textarea>
+                    
+                    <button onclick="copyOutput()" class="copy-btn">
+                        <i class="fas fa-copy"></i> XML 복사하기
+                    </button>
+                </div>
+            </div>
 
-            xml += `</${rootName}>`;
-            return xml;
-        }
-        function formatXml(xml) {
-            let formatted = '';
-            const reg = /(>)(<)(\/*)/g;
-            xml = xml.replace(reg, '$1\r\n$2$3');
-            let pad = 0;
-            xml.split('\r\n').forEach((node, index) => {
-                let indent = 0;
-                if (node.match(/.+<\/\w[^>]*>$/)) {
-                    indent = 0;
-                } else if (node.match(/^<\/\w/)) {
-                    if (pad !== 0) {
-                        pad -= 1;
-                    }
-                } else if (node.match(/^<\w([^>]*[^\/])?>.*$/)) {
-                    indent = 1;
-                } else {
-                    indent = 0;
-                }
+            <!-- Alert Section -->
+            <div id="alert" class="alert-message"></div>
 
-                const padding = new Array(pad + 1).join('  ');
-                formatted += padding + node + '\r\n';
-                pad += indent;
-            });
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 JSON 데이터
+                </h3>
+                
+                <div class="example-code" id="exampleJSON">{
+  "company": {
+    "name": "개발자 회사",
+    "founded": 2020,
+    "location": "서울",
+    "employees": [
+      {
+        "id": 1,
+        "name": "김개발",
+        "position": "프론트엔드 개발자",
+        "skills": ["React", "JavaScript", "CSS"]
+      },
+      {
+        "id": 2,
+        "name": "이백엔드",
+        "position": "백엔드 개발자",
+        "skills": ["Node.js", "Python", "MySQL"]
+      }
+    ],
+    "projects": {
+      "current": "웹 애플리케이션 개발",
+      "completed": 15,
+      "inProgress": 3
+    },
+    "contact": {
+      "email": "info@company.com",
+      "phone": "02-1234-5678",
+      "website": "https://company.com"
+    }
+  }
+}</div>
+                
+                <button onclick="tryExample()" class="try-example-btn">
+                    <i class="fas fa-play"></i> 예제 JSON으로 시도해보기
+                </button>
+            </div>
+        </div>
+    </div>
 
-            return formatted;
-        }
-    </script>
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script src="js/json-to-xml.js"></script>
 </body>
 </html>

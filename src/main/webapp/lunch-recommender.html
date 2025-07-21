@@ -1,233 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>점심 추천기</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: 40px auto;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #recommendation {
-            font-size: 24px;
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #e0f7fa;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            width: 100%;
-        }
-        input, button {
-            margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #005bb5;
-        }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-        table th {
-            background-color: #0073e6;
-            color: white;
-        }
-        table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
-    </style>
+    <title>점심 추천기 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/lunch-recommender.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>오늘의 점심은?</h1>
-        <div id="recommendation">무엇을 드실지 고민이신가요? 버튼을 눌러 추천을 받아보세요!</div>
-        <button style="background-color: chartreuse;" onclick="recommendLunch()">점심 추천</button>
-        <input type="text" id="restaurantInput" placeholder="음식점을 입력하세요">
-        <button onclick="saveLunch()" style="background-color: cornflowerblue;">점심 저장</button>
-
-        <h2>이전의 점심 기록</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>날짜</th>
-                    <th>요일</th>
-                    <th>음식</th>
-                    <th>음식점</th>
-                    <th>수정</th>
-                    <th>삭제</th>
-                </tr>
-            </thead>
-            <tbody id="historyTableBody">
-                <!-- 이전의 점심 기록이 여기에 표시됩니다 -->
-            </tbody>
-        </table>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html" class="active"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <script>
-        const lunchHistory = JSON.parse(localStorage.getItem('lunchHistory')) || [];
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">점심 추천기</h1>
+            </div>
+        </div>
 
-        function loadHistory() {
-            const tableBody = document.getElementById('historyTableBody');
-            tableBody.innerHTML = '';
+        <div class="container">
+            <!-- Stats Section -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number" id="totalCount">0</span>
+                    <span class="stat-label">총 점심 기록</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="weekCount">0</span>
+                    <span class="stat-label">이번 주 기록</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="favoriteFood">없음</span>
+                    <span class="stat-label">가장 좋아하는 음식</span>
+                </div>
+            </div>
 
-            lunchHistory.forEach((entry, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${entry.date}</td>
-                    <td>${entry.day}</td>
-                    <td><input type="text" value="${entry.food}" id="food-${index}"></td>
-                    <td><input type="text" value="${entry.restaurant}" id="restaurant-${index}"></td>
-                    <td><button onclick="updateLunch(${index})">수정</button></td>
-                    <td><button onclick="deleteLunch(${index})">삭제</button></td>
-                `;
-                tableBody.appendChild(row);
-            });
-        }
+            <div class="recommender-container">
+                <!-- Recommendation Section -->
+                <div class="recommendation-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h2 class="section-title">오늘의 점심 추천</h2>
+                    </div>
+                    
+                    <div class="recommendation-display">
+                        <div class="recommendation-text" id="recommendationText">어떤 음식을 드시고 싶으신가요?</div>
+                        <div class="recommendation-subtitle" id="recommendationSubtitle">아래 버튼을 클릭해서 추천을 받아보세요!</div>
+                    </div>
+                    
+                    <button onclick="recommendLunch()" class="recommend-btn">
+                        <i class="fas fa-dice"></i>
+                        점심 추천받기
+                    </button>
+                </div>
 
-        function recommendLunch() {
-            const lunchOptions = [
-                '새우볶음밥', '롯데리아', '돈까스', '제육볶음', '된장찌개',
-                '불고기', '냉면', '순두부찌개', '카레라이스', '짜장면',
-                '짬뽕', '라면', '김밥', '우동', '떡볶이',
-                '치킨', '피자', '햄버거', '샌드위치', '파스타'
-            ];
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h2 class="section-title">음식점 정보</h2>
+                    </div>
+                    
+                    <input type="text" id="restaurantInput" class="restaurant-input" placeholder="음식점 이름을 입력하세요..." />
+                    
+                    <button onclick="saveLunch()" class="save-btn">
+                        <i class="fas fa-save"></i>
+                        점심 기록 저장
+                    </button>
+                </div>
+            </div>
 
-            const weights = calculateWeights(lunchOptions);
-            const recommendation = weightedRandomSelect(lunchOptions, weights);
-            document.getElementById('recommendation').textContent = `오늘의 점심 추천: ${recommendation}`;
-        }
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="section-header">
+                    <h2 class="history-title">
+                        <i class="fas fa-history"></i>
+                        점심 기록 히스토리
+                    </h2>
+                    <div style="margin-left: auto; display: flex; gap: 10px;">
+                        <button onclick="exportHistory()" class="action-btn" title="CSV로 내보내기">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button onclick="clearAllHistory()" class="action-btn delete-btn" title="모든 기록 삭제">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>요일</th>
+                            <th>음식</th>
+                            <th>음식점</th>
+                            <th>수정</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- 점심 기록이 여기에 표시됩니다 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-        function calculateWeights(options) {
-            const weights = options.map(option => {
-                // 최근에 선택된 횟수를 계산
-                const count = lunchHistory.filter(entry => entry.food === option).length;
-                // 기본 가중치에서 이전 선택 횟수를 뺀 값을 사용 (선택 횟수가 많을수록 가중치가 낮아짐)
-                return Math.max(1, 5 - count);
-            });
-            return weights;
-        }
-
-        function weightedRandomSelect(options, weights) {
-            const totalWeight = weights.reduce((acc, weight) => acc + weight, 0);
-            let random = Math.random() * totalWeight;
-            for (let i = 0; i < options.length; i++) {
-                if (random < weights[i]) {
-                    return options[i];
-                }
-                random -= weights[i];
-            }
-        }
-
-        function saveLunch() {
-            const recommendation = document.getElementById('recommendation').textContent.replace('오늘의 점심 추천: ', '').trim();
-            const restaurant = document.getElementById('restaurantInput').value.trim();
-
-            if (!recommendation || recommendation === '무엇을 드실지 고민이신가요? 버튼을 눌러 추천을 받아보세요!') {
-                alert('먼저 점심을 추천받으세요.');
-                return;
-            }
-
-            if (!restaurant) {
-                alert('음식점을 입력하세요.');
-                return;
-            }
-
-            const now = new Date();
-            const date = now.toLocaleDateString();
-            const day = now.toLocaleDateString('ko-KR', { weekday: 'long' });
-
-            const newEntry = { date, day, food: recommendation, restaurant };
-
-            lunchHistory.push(newEntry);
-            localStorage.setItem('lunchHistory', JSON.stringify(lunchHistory));
-            loadHistory();
-            document.getElementById('restaurantInput').value = ''; // 음식점 입력 초기화
-        }
-
-        function updateLunch(index) {
-            const updatedEntry = {
-                date: lunchHistory[index].date,
-                day: lunchHistory[index].day,
-                food: document.getElementById(`food-${index}`).value,
-                restaurant: document.getElementById(`restaurant-${index}`).value
-            };
-
-            lunchHistory[index] = updatedEntry;
-            localStorage.setItem('lunchHistory', JSON.stringify(lunchHistory));
-            loadHistory();
-        }
-
-        function deleteLunch(index) {
-            lunchHistory.splice(index, 1);
-            localStorage.setItem('lunchHistory', JSON.stringify(lunchHistory));
-            loadHistory();
-        }
-
-        window.onload = loadHistory;
-    </script>
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script src="js/lunch-recommender.js"></script>
 </body>
 </html>

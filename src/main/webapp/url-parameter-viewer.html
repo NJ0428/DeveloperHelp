@@ -1,146 +1,324 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL 파라미터 뷰어</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #urlInput {
-            width: 100%;
-            height: 40px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-        }
-        #parameterTable {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background-color: #f9f9f9;
-        }
-        #parameterTable th, #parameterTable td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        #parameterTable th {
-            background-color: #f2f2f2;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>URL 파라미터 뷰어 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/url-tools.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>URL 파라미터 뷰어</h1>
-        <input id="urlInput" placeholder="URL을 입력하세요" />
-        <button onclick="showParameters()">파라미터 보기</button>
-        <table id="parameterTable">
-            <thead>
-                <tr>
-                    <th>키</th>
-                    <th>값</th>
-                </tr>
-            </thead>
-            <tbody id="parameterTableBody">
-                <!-- 파라미터가 여기 표시됩니다 -->
-            </tbody>
-        </table>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html" class="active"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">URL 파라미터 뷰어</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="url-tools-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <h2 class="section-title">URL 입력</h2>
+                    </div>
+                    
+                    <input type="url" id="urlInput" class="url-input" placeholder="https://example.com/page?param1=value1&param2=value2" />
+                    
+                    <button onclick="showParameters()" class="process-btn">
+                        <i class="fas fa-search"></i>
+                        파라미터 분석하기
+                    </button>
+                </div>
+
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <h2 class="section-title">파라미터 결과</h2>
+                    </div>
+                    
+                    <div id="parameterResults">
+                        <div class="empty-state">
+                            <i class="fas fa-info-circle"></i>
+                            <p>URL을 입력하고 분석 버튼을 클릭하세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div id="parameterTableContainer" style="display: none;">
+                <div class="table-actions">
+                    <button onclick="copyParameters()" class="action-btn copy-btn">
+                        <i class="fas fa-copy"></i> 파라미터 복사
+                    </button>
+                    <button onclick="exportParameters()" class="action-btn export-btn">
+                        <i class="fas fa-download"></i> JSON으로 내보내기
+                    </button>
+                    <button onclick="clearParameters()" class="action-btn clear-btn">
+                        <i class="fas fa-trash"></i> 초기화
+                    </button>
+                </div>
+                
+                <table class="parameter-table" id="parameterTable">
+                    <thead>
+                        <tr>
+                            <th>키</th>
+                            <th>값</th>
+                            <th>디코딩된 값</th>
+                            <th>동작</th>
+                        </tr>
+                    </thead>
+                    <tbody id="parameterTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 URL
+                </h3>
+                
+                <div class="example-items">
+                    <div class="example-item" onclick="tryExample('https://example.com/search?q=JavaScript&category=programming&sort=date&limit=10')">
+                        <div class="example-url">https://example.com/search?q=JavaScript&category=programming&sort=date&limit=10</div>
+                        <div class="example-description">검색 쿼리 예제 (4개 파라미터)</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('https://api.example.com/users?page=1&size=20&filter=active&include=profile')">
+                        <div class="example-url">https://api.example.com/users?page=1&size=20&filter=active&include=profile</div>
+                        <div class="example-description">API 페이징 예제 (4개 파라미터)</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('https://shop.example.com/products?category=%EC%A0%84%EC%9E%90%EC%A0%9C%ED%92%88&price_min=100000&price_max=500000')">
+                        <div class="example-url">https://shop.example.com/products?category=전자제품&price_min=100000&price_max=500000</div>
+                        <div class="example-description">쇼핑몰 필터 예제 (한글 인코딩 포함)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
     <script>
+        let currentParameters = {};
+
         function showParameters() {
             const urlInput = document.getElementById('urlInput').value.trim();
+            const resultsContainer = document.getElementById('parameterResults');
+            const tableContainer = document.getElementById('parameterTableContainer');
             const tableBody = document.getElementById('parameterTableBody');
-            tableBody.innerHTML = ''; // Clear previous results
+
+            if (!urlInput) {
+                showNotification('URL을 입력하세요.', 'warning');
+                return;
+            }
 
             try {
+                // Clear previous results
+                tableBody.innerHTML = '';
+                currentParameters = {};
+
                 const url = new URL(urlInput);
                 const params = new URLSearchParams(url.search);
+                const paramEntries = Array.from(params.entries());
 
-                params.forEach((value, key) => {
+                if (paramEntries.length === 0) {
+                    resultsContainer.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-info-circle"></i>
+                            <p>URL에 파라미터가 없습니다.</p>
+                        </div>
+                    `;
+                    tableContainer.style.display = 'none';
+                    showNotification('URL에 파라미터가 없습니다.', 'info');
+                    return;
+                }
+
+                // Show success message
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; color: var(--success-color); padding: 30px 0;">
+                        <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                        <p><strong>${paramEntries.length}개의 파라미터를 발견했습니다!</strong></p>
+                        <p>아래 표에서 상세 정보를 확인하세요.</p>
+                    </div>
+                `;
+
+                // Populate table
+                paramEntries.forEach(([key, value], index) => {
                     const row = document.createElement('tr');
-                    const keyCell = document.createElement('td');
-                    const valueCell = document.createElement('td');
+                    const decodedValue = decodeURIComponent(value);
+                    
+                    currentParameters[key] = {
+                        original: value,
+                        decoded: decodedValue
+                    };
 
-                    keyCell.textContent = key;
-                    valueCell.textContent = value;
-
-                    row.appendChild(keyCell);
-                    row.appendChild(valueCell);
+                    row.innerHTML = `
+                        <td>
+                            <span class="param-key">${key}</span>
+                        </td>
+                        <td>
+                            <code class="param-value">${value}</code>
+                        </td>
+                        <td>
+                            <span class="param-decoded">${decodedValue}</span>
+                        </td>
+                        <td>
+                            <button onclick="copyParameter('${key}', '${decodedValue}')" class="copy-param-btn" title="복사">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </td>
+                    `;
+                    
                     tableBody.appendChild(row);
                 });
 
-                if (!params.toString()) {
-                    const row = document.createElement('tr');
-                    const cell = document.createElement('td');
-                    cell.setAttribute('colspan', '2');
-                    cell.textContent = 'URL에 파라미터가 없습니다.';
-                    row.appendChild(cell);
-                    tableBody.appendChild(row);
-                }
+                tableContainer.style.display = 'block';
+                showNotification(`${paramEntries.length}개의 URL 파라미터를 분석했습니다.`, 'success');
+
             } catch (error) {
-                const row = document.createElement('tr');
-                const cell = document.createElement('td');
-                cell.setAttribute('colspan', '2');
-                cell.textContent = '유효한 URL을 입력하세요.';
-                row.appendChild(cell);
-                tableBody.appendChild(row);
+                console.error('URL Analysis Error:', error);
+                resultsContainer.innerHTML = `
+                    <div style="text-align: center; color: var(--danger-color); padding: 30px 0;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                        <p><strong>오류 발생:</strong> 유효한 URL을 입력하세요.</p>
+                    </div>
+                `;
+                tableContainer.style.display = 'none';
+                showNotification('유효하지 않은 URL입니다.', 'error');
             }
         }
+
+        function copyParameter(key, value) {
+            const textToCopy = `${key}=${value}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showNotification(`파라미터 "${key}"가 클립보드에 복사되었습니다.`, 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification(`파라미터 "${key}"가 클립보드에 복사되었습니다.`, 'success');
+            });
+        }
+
+        function copyParameters() {
+            if (Object.keys(currentParameters).length === 0) {
+                showNotification('복사할 파라미터가 없습니다.', 'warning');
+                return;
+            }
+
+            const paramStrings = Object.entries(currentParameters).map(([key, value]) => 
+                `${key}=${value.decoded}`
+            );
+            const queryString = paramStrings.join('&');
+
+            navigator.clipboard.writeText(queryString).then(() => {
+                showNotification('모든 파라미터가 클립보드에 복사되었습니다.', 'success');
+            }).catch(() => {
+                showNotification('클립보드 복사에 실패했습니다.', 'error');
+            });
+        }
+
+        function exportParameters() {
+            if (Object.keys(currentParameters).length === 0) {
+                showNotification('내보낼 파라미터가 없습니다.', 'warning');
+                return;
+            }
+
+            const exportData = {};
+            Object.entries(currentParameters).forEach(([key, value]) => {
+                exportData[key] = value.decoded;
+            });
+
+            const jsonString = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `url-parameters-${new Date().toISOString().slice(0, 10)}.json`;
+            link.click();
+            
+            URL.revokeObjectURL(url);
+            showNotification('파라미터가 JSON 파일로 내보내졌습니다.', 'success');
+        }
+
+        function clearParameters() {
+            document.getElementById('urlInput').value = '';
+            document.getElementById('parameterResults').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-info-circle"></i>
+                    <p>URL을 입력하고 분석 버튼을 클릭하세요.</p>
+                </div>
+            `;
+            document.getElementById('parameterTableContainer').style.display = 'none';
+            currentParameters = {};
+            showNotification('입력이 초기화되었습니다.', 'info');
+        }
+
+        function tryExample(exampleUrl) {
+            document.getElementById('urlInput').value = exampleUrl;
+            showParameters();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add enter key support for URL input
+            document.getElementById('urlInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    showParameters();
+                }
+            });
+        });
     </script>
 </body>
 </html>

@@ -1,147 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XML -> JSON 변환기</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #xmlInput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-        }
-        #jsonOutput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            background-color: #f9f9f9;
-        }
-        .alert {
-            color: red;
-            margin-top: 10px;
-        }
-    </style>
+    <title>XML → JSON 변환기 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/common-converter.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>XML -> JSON 변환기</h1>
-        <textarea id="xmlInput" placeholder="여기에 XML 붙여넣기"></textarea>
-        <button onclick="convertXMLtoJSON()">JSON으로 변환</button>
-        <div id="alert" class="alert"></div>
-        <textarea id="jsonOutput" placeholder="여기에 변환된 JSON 출력"></textarea>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html" class="active"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">XML → JSON 변환기</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="converter-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-file-code"></i>
+                        </div>
+                        <h2 class="section-title">XML 입력</h2>
+                    </div>
+                    
+                    <textarea id="xmlInput" class="code-textarea" placeholder="여기에 XML 데이터를 입력하세요...
+
+예시:
+<?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>
+<root>
+    <user id=&quot;1&quot;>
+        <name>홍길동</name>
+        <email>hong@example.com</email>
+    </user>
+</root>"></textarea>
+                    
+                    <div class="button-group">
+                        <button onclick="convertXMLtoJSON()" class="convert-btn">
+                            <i class="fas fa-exchange-alt"></i>
+                            JSON으로 변환
+                        </button>
+                        <button onclick="clearInput()" class="clear-btn">
+                            <i class="fas fa-trash"></i>
+                            초기화
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-brackets-curly"></i>
+                        </div>
+                        <h2 class="section-title">JSON 출력</h2>
+                    </div>
+                    
+                    <textarea id="jsonOutput" class="code-textarea" placeholder="변환된 JSON 데이터가 여기에 표시됩니다..." readonly></textarea>
+                    
+                    <div class="button-group">
+                        <button onclick="copyOutput()" class="copy-btn">
+                            <i class="fas fa-copy"></i>
+                            결과 복사
+                        </button>
+                        <button onclick="downloadOutput()" class="download-btn">
+                            <i class="fas fa-download"></i>
+                            JSON 다운로드
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alert Message -->
+            <div id="alert" class="alert-message" style="display: none;"></div>
+
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 XML 데이터
+                </h3>
+                
+                <div class="example-items">
+                    <div class="example-item">
+                        <div class="example-name">사용자 정보</div>
+                        <div class="example-code" id="exampleXML1"><?xml version="1.0" encoding="UTF-8"?>
+<users>
+    <user id="1" active="true">
+        <name>홍길동</name>
+        <email>hong@example.com</email>
+        <age>30</age>
+        <address>
+            <city>서울</city>
+            <district>강남구</district>
+        </address>
+    </user>
+    <user id="2" active="false">
+        <name>김철수</name>
+        <email>kim@example.com</email>
+        <age>25</age>
+    </user>
+</users></div>
+                        <button onclick="useExample('exampleXML1')" class="try-example-btn">
+                            <i class="fas fa-play"></i> 이 예제 사용하기
+                        </button>
+                    </div>
+                    
+                    <div class="example-item">
+                        <div class="example-name">상품 목록</div>
+                        <div class="example-code" id="exampleXML2"><?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product category="electronics" featured="true">
+        <id>101</id>
+        <name>스마트폰</name>
+        <price currency="KRW">800000</price>
+        <specs>
+            <screen>6.1인치</screen>
+            <memory>128GB</memory>
+            <color>블랙</color>
+        </specs>
+    </product>
+    <product category="books">
+        <id>201</id>
+        <name>JavaScript 완벽 가이드</name>
+        <price currency="KRW">35000</price>
+        <author>데이비드 플래너건</author>
+    </product>
+</products></div>
+                        <button onclick="useExample('exampleXML2')" class="try-example-btn">
+                            <i class="fas fa-play"></i> 이 예제 사용하기
+                        </button>
+                    </div>
+                    
+                    <div class="example-item">
+                        <div class="example-name">설정 파일</div>
+                        <div class="example-code" id="exampleXML3"><?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <database>
+        <host>localhost</host>
+        <port>3306</port>
+        <name>myapp</name>
+        <credentials>
+            <username>admin</username>
+            <password>secret123</password>
+        </credentials>
+    </database>
+    <cache enabled="true">
+        <type>redis</type>
+        <ttl>3600</ttl>
+    </cache>
+    <logging level="info" file="app.log"/>
+</configuration></div>
+                        <button onclick="useExample('exampleXML3')" class="try-example-btn">
+                            <i class="fas fa-play"></i> 이 예제 사용하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script src="js/xml-to-json.js"></script>
     <script>
-        function convertXMLtoJSON() {
-            const xmlInput = document.getElementById('xmlInput').value;
-            const jsonOutput = document.getElementById('jsonOutput');
-            const alertDiv = document.getElementById('alert');
-            jsonOutput.value = ''; // Clear previous content
-            alertDiv.innerHTML = ''; // Clear previous alerts
-
-            try {
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlInput, "text/xml");
-
-                if (xmlDoc.getElementsByTagName("parsererror").length > 0) {
-                    throw new Error("Invalid XML format.");
-                }
-
-                const jsonObject = xmlToJson(xmlDoc);
-                jsonOutput.value = JSON.stringify(jsonObject, null, 2);
-            } catch (e) {
-                alertDiv.innerHTML = 'Invalid XML: ' + e.message;
+        function useExample(exampleId) {
+            const exampleElement = document.getElementById(exampleId);
+            const xmlInput = document.getElementById('xmlInput');
+            
+            if (exampleElement && xmlInput) {
+                xmlInput.value = exampleElement.textContent.trim();
+                xmlInput.focus();
+                convertXMLtoJSON();
             }
         }
 
-        function xmlToJson(xml) {
-            let obj = {};
-            if (xml.nodeType === 1) { // element
-                if (xml.attributes.length > 0) {
-                    obj["@attributes"] = {};
-                    for (let j = 0; j < xml.attributes.length; j++) {
-                        const attribute = xml.attributes.item(j);
-                        obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-                    }
+        function downloadOutput() {
+            const jsonOutput = document.getElementById('jsonOutput');
+            if (!jsonOutput || !jsonOutput.value.trim()) {
+                if (window.showNotification) {
+                    window.showNotification('다운로드할 JSON 데이터가 없습니다.', 'warning');
                 }
-            } else if (xml.nodeType === 3) { // text
-                obj = xml.nodeValue.trim();
+                return;
             }
 
-            if (xml.hasChildNodes()) {
-                for (let i = 0; i < xml.childNodes.length; i++) {
-                    const item = xml.childNodes.item(i);
-                    const nodeName = item.nodeName;
-                    if (typeof (obj[nodeName]) === "undefined") {
-                        obj[nodeName] = xmlToJson(item);
-                    } else {
-                        if (typeof (obj[nodeName].push) === "undefined") {
-                            const old = obj[nodeName];
-                            obj[nodeName] = [];
-                            obj[nodeName].push(old);
-                        }
-                        obj[nodeName].push(xmlToJson(item));
-                    }
-                }
+            const blob = new Blob([jsonOutput.value], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            
+            link.href = url;
+            link.download = `converted-${new Date().toISOString().slice(0, 10)}.json`;
+            link.style.display = 'none';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            URL.revokeObjectURL(url);
+            
+            if (window.showNotification) {
+                window.showNotification('JSON 파일이 다운로드되었습니다.', 'success');
             }
-
-            return obj;
         }
     </script>
 </body>

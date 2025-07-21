@@ -1,97 +1,198 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL 디코딩</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #inputText {
-            width: 100%;
-            height: 100px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-        }
-        #outputText {
-            width: 100%;
-            height: 100px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>URL 디코딩 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/url-tools.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>URL 디코딩</h1>
-        <textarea id="inputText" placeholder="여기에 인코딩된 텍스트 또는 URL을 입력하세요"></textarea>
-        <button onclick="decodeURL()">디코딩</button>
-        <textarea id="outputText" placeholder="디코딩된 결과가 여기에 나타납니다" readonly></textarea>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html" class="active"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">URL 디코딩</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="url-tool-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h2 class="section-title">인코딩된 텍스트</h2>
+                    </div>
+                    
+                    <textarea id="inputText" class="url-input" placeholder="여기에 디코딩할 인코딩된 텍스트 또는 URL을 입력하세요...
+
+예시:
+https%3A%2F%2Fexample.com%2Fsearch%3Fq%3D%ED%95%9C%EA%B8%80%20%EA%B2%80%EC%83%89%EC%96%B4
+%EC%95%88%EB%85%95%ED%95%98%EC%84%B8%EC%9A%94"></textarea>
+                    
+                    <button onclick="decodeURL()" class="process-btn">
+                        <i class="fas fa-unlock"></i>
+                        URL 디코딩하기
+                    </button>
+                    
+                    <button onclick="clearInput()" class="clear-btn">
+                        <i class="fas fa-eraser"></i> 초기화
+                    </button>
+                </div>
+
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-file-text"></i>
+                        </div>
+                        <h2 class="section-title">디코딩된 결과</h2>
+                    </div>
+                    
+                    <textarea id="outputText" class="url-output" placeholder="디코딩된 결과가 여기에 나타납니다..." readonly></textarea>
+                    
+                    <button onclick="copyOutput()" class="copy-btn">
+                        <i class="fas fa-copy"></i> 결과 복사하기
+                    </button>
+                </div>
+            </div>
+
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 인코딩된 URL
+                </h3>
+                
+                <div class="example-url" id="exampleText">https%3A%2F%2Fexample.com%2Fapi%2Fsearch%3Fquery%3D%ED%95%9C%EA%B8%80%20%EA%B2%80%EC%83%89%EC%96%B4%26filter%3D%EC%B9%B4%ED%85%8C%EA%B3%A0%EB%A6%AC%26sort%3D%EC%B5%9C%EC%8B%A0%EC%88%9C%26limit%3D10%26special%3D%40%23%24%25%5E%26*()_%2B</div>
+                
+                <button onclick="tryExample()" class="try-example-btn">
+                    <i class="fas fa-play"></i> 예제로 시도해보기
+                </button>
+
+                <div style="margin-top: 20px;">
+                    <h4 style="color: #2a3547; margin-bottom: 10px;">
+                        <i class="fas fa-info-circle"></i> URL 디코딩이란?
+                    </h4>
+                    <p style="color: #6c757d; line-height: 1.6;">
+                        URL 디코딩은 인코딩된 URL을 원래의 읽을 수 있는 형태로 변환하는 과정입니다. 
+                        %로 시작하는 인코딩된 문자들을 한글이나 특수문자 등 원래 문자로 복원합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
     <script>
         function decodeURL() {
             const inputText = document.getElementById('inputText').value;
-            const decodedText = decodeURIComponent(inputText);
-            document.getElementById('outputText').value = decodedText;
+            const outputText = document.getElementById('outputText');
+            
+            if (!inputText.trim()) {
+                if (window.showNotification) {
+                    window.showNotification('디코딩할 텍스트를 입력하세요.', 'warning');
+                } else {
+                    alert('디코딩할 텍스트를 입력하세요.');
+                }
+                return;
+            }
+            
+            try {
+                const decodedText = decodeURIComponent(inputText);
+                outputText.value = decodedText;
+                
+                if (window.showNotification) {
+                    window.showNotification('URL 디코딩이 완료되었습니다.', 'success');
+                }
+            } catch (error) {
+                console.error('Decoding Error:', error);
+                outputText.value = '디코딩 중 오류가 발생했습니다: ' + error.message;
+                
+                if (window.showNotification) {
+                    window.showNotification('디코딩 중 오류가 발생했습니다.', 'error');
+                }
+            }
         }
+        
+        function copyOutput() {
+            const outputText = document.getElementById('outputText');
+            if (outputText.value) {
+                navigator.clipboard.writeText(outputText.value).then(() => {
+                    if (window.showNotification) {
+                        window.showNotification('디코딩 결과가 클립보드에 복사되었습니다.', 'success');
+                    }
+                }).catch(() => {
+                    // Fallback for older browsers
+                    outputText.select();
+                    document.execCommand('copy');
+                    if (window.showNotification) {
+                        window.showNotification('디코딩 결과가 클립보드에 복사되었습니다.', 'success');
+                    }
+                });
+            }
+        }
+        
+        function clearInput() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            if (window.showNotification) {
+                window.showNotification('입력이 초기화되었습니다.', 'info');
+            }
+        }
+        
+        function tryExample() {
+            const exampleText = document.getElementById('exampleText').textContent;
+            document.getElementById('inputText').value = exampleText;
+            decodeURL();
+        }
+
+        // Add keyboard shortcut support
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('inputText').addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    decodeURL();
+                }
+            });
+        });
     </script>
 </body>
 </html>

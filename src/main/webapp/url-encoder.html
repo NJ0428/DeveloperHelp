@@ -1,97 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL 인코딩</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #inputText {
-            width: 100%;
-            height: 100px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-        }
-        #outputText {
-            width: 100%;
-            height: 100px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <title>URL 인코딩 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/url-tools.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>URL 인코딩</h1>
-        <textarea id="inputText" placeholder="여기에 텍스트 또는 URL을 입력하세요"></textarea>
-        <button onclick="encodeURL()">인코딩</button>
-        <textarea id="outputText" placeholder="인코딩된 결과가 여기에 나타납니다" readonly></textarea>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html" class="active"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">URL 인코딩</h1>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="url-tool-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h2 class="section-title">원본 텍스트</h2>
+                    </div>
+                    
+                    <textarea id="inputText" class="url-input" placeholder="여기에 인코딩할 텍스트 또는 URL을 입력하세요...
+
+예시:
+https://example.com/search?q=한글 검색어&category=도서
+안녕하세요! 특수문자: @#$%^&*()"></textarea>
+                    
+                    <button onclick="encodeURL()" class="process-btn">
+                        <i class="fas fa-lock"></i>
+                        URL 인코딩하기
+                    </button>
+                    
+                    <button onclick="clearInput()" class="clear-btn">
+                        <i class="fas fa-eraser"></i> 초기화
+                    </button>
+                </div>
+
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h2 class="section-title">인코딩된 결과</h2>
+                    </div>
+                    
+                    <textarea id="outputText" class="url-output" placeholder="인코딩된 결과가 여기에 나타납니다..." readonly></textarea>
+                    
+                    <button onclick="copyOutput()" class="copy-btn">
+                        <i class="fas fa-copy"></i> 결과 복사하기
+                    </button>
+                </div>
+            </div>
+
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 URL 및 텍스트
+                </h3>
+                
+                <div class="example-url" id="exampleText">https://example.com/api/search?query=한글 검색어&filter=카테고리&sort=최신순&limit=10&special=@#$%^&*()_+</div>
+                
+                <button onclick="tryExample()" class="try-example-btn">
+                    <i class="fas fa-play"></i> 예제로 시도해보기
+                </button>
+
+                <div style="margin-top: 20px;">
+                    <h4 style="color: #2a3547; margin-bottom: 10px;">
+                        <i class="fas fa-info-circle"></i> URL 인코딩이란?
+                    </h4>
+                    <p style="color: #6c757d; line-height: 1.6;">
+                        URL 인코딩은 URL에 포함될 수 없는 특수 문자나 한글 등을 안전한 형태로 변환하는 과정입니다. 
+                        웹 브라우저와 서버 간의 통신에서 데이터가 올바르게 전달되도록 보장합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
     <script>
         function encodeURL() {
             const inputText = document.getElementById('inputText').value;
-            const encodedText = encodeURIComponent(inputText);
-            document.getElementById('outputText').value = encodedText;
+            const outputText = document.getElementById('outputText');
+            
+            if (!inputText.trim()) {
+                if (window.showNotification) {
+                    window.showNotification('인코딩할 텍스트를 입력하세요.', 'warning');
+                } else {
+                    alert('인코딩할 텍스트를 입력하세요.');
+                }
+                return;
+            }
+            
+            try {
+                const encodedText = encodeURIComponent(inputText);
+                outputText.value = encodedText;
+                
+                if (window.showNotification) {
+                    window.showNotification('URL 인코딩이 완료되었습니다.', 'success');
+                }
+            } catch (error) {
+                console.error('Encoding Error:', error);
+                if (window.showNotification) {
+                    window.showNotification('인코딩 중 오류가 발생했습니다.', 'error');
+                }
+            }
         }
+        
+        function copyOutput() {
+            const outputText = document.getElementById('outputText');
+            if (outputText.value) {
+                navigator.clipboard.writeText(outputText.value).then(() => {
+                    if (window.showNotification) {
+                        window.showNotification('인코딩 결과가 클립보드에 복사되었습니다.', 'success');
+                    }
+                }).catch(() => {
+                    // Fallback for older browsers
+                    outputText.select();
+                    document.execCommand('copy');
+                    if (window.showNotification) {
+                        window.showNotification('인코딩 결과가 클립보드에 복사되었습니다.', 'success');
+                    }
+                });
+            }
+        }
+        
+        function clearInput() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
+            if (window.showNotification) {
+                window.showNotification('입력이 초기화되었습니다.', 'info');
+            }
+        }
+        
+        function tryExample() {
+            const exampleText = document.getElementById('exampleText').textContent;
+            document.getElementById('inputText').value = exampleText;
+            encodeURL();
+        }
+
+        // Add keyboard shortcut support
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('inputText').addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    encodeURL();
+                }
+            });
+        });
     </script>
 </body>
 </html>

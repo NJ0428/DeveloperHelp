@@ -1,209 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON 뷰어</title>
+    <title>JSON 뷰어 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/common-converter.css">
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        .json-key {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-weight: 600;
+            color: #5d87ff;
         }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
+        
+        .json-value {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
         }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+        
+        .json-string { color: #27ae60; }
+        .json-number { color: #e74c3c; }
+        .json-boolean { color: #8e44ad; }
+        .json-null { color: #95a5a6; font-style: italic; }
+        .json-object { color: #2980b9; }
+        .json-array { color: #f39c12; }
+        
+        .json-type {
+            background: #f8f9fa;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: #6c757d;
         }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
+        
+        .collapsible-container {
+            margin: 5px 0;
         }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        
+        .expand-icon {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #jsonInput {
-            width: 100%;
-            height: 150px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-        }
-        #jsonTable {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
-            background-color: #ffffff;
-        }
-        #jsonTable th, #jsonTable td {
-            border: 1px solid #ddd;
+        
+        .array-item {
+            margin: 8px 0;
             padding: 8px;
-            text-align: left;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 3px solid #5d87ff;
         }
-        #jsonTable th {
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        #jsonTable tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        #jsonTable tr:hover {
-            background-color: #ddd;
-        }
-        .collapsible {
-            cursor: pointer;
-            color: #4CAF50;
-            font-weight: bold;
-        }
-        .content {
-            display: none;
-            margin-left: 20px;
-            border-left: 1px solid #ddd;
-            padding-left: 20px;
-        }
-        .expanded .content {
-            display: block;
-        }
-        .alert {
-            color: red;
-            margin-top: 10px;
+        
+        .nested-container {
+            margin-left: 15px;
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>JSON 뷰어</h1>
-        <textarea id="jsonInput" placeholder="여기에 JSON 붙여넣기"></textarea>
-        <button onclick="parseJSON()">JSON전환</button>
-        <div id="alert" class="alert"></div>
-        <table id="jsonTable"></table>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html" class="active"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <script>
-        function parseJSON() {
-            const jsonInput = document.getElementById('jsonInput').value;
-            const jsonTable = document.getElementById('jsonTable');
-            const alertDiv = document.getElementById('alert');
-            jsonTable.innerHTML = ''; // Clear previous content
-            alertDiv.innerHTML = ''; // Clear previous alerts
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">JSON 뷰어</h1>
+            </div>
+        </div>
 
-            try {
-                const jsonObject = JSON.parse(jsonInput);
-                generateTable(jsonObject, jsonTable);
-            } catch (e) {
-                alertDiv.innerHTML = 'Invalid JSON: ' + e.message;
-            }
-        }
+        <div class="container">
+            <div class="viewer-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h2 class="section-title">JSON 입력</h2>
+                    </div>
+                    
+                    <textarea id="jsonInput" class="code-editor" placeholder="여기에 JSON 데이터를 입력하세요...
 
-        function generateTable(jsonObject, container) {
-            if (typeof jsonObject === 'object' && !Array.isArray(jsonObject)) {
-                const table = document.createElement('table');
-                table.id = 'jsonTable';
+예시:
+{
+  &quot;name&quot;: &quot;홍길동&quot;,
+  &quot;age&quot;: 30,
+  &quot;hobbies&quot;: [&quot;독서&quot;, &quot;영화감상&quot;]
+}"></textarea>
+                    
+                    <button onclick="parseJSON()" class="process-btn">
+                        <i class="fas fa-search"></i>
+                        JSON 파싱하기
+                    </button>
+                    
+                    <button onclick="clearInput()" class="clear-btn">
+                        <i class="fas fa-eraser"></i> 초기화
+                    </button>
+                </div>
 
-                const header = table.insertRow(-1);
-                const thKey = document.createElement('th');
-                thKey.innerHTML = 'Key';
-                const thValue = document.createElement('th');
-                thValue.innerHTML = 'Value';
-                header.appendChild(thKey);
-                header.appendChild(thValue);
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-table"></i>
+                        </div>
+                        <h2 class="section-title">구조화된 뷰</h2>
+                    </div>
+                    
+                    <div id="parseResults">
+                        <div style="text-align: center; color: var(--muted-color); padding: 50px 0;">
+                            <i class="fas fa-info-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
+                            <p>JSON 데이터를 입력하고 파싱 버튼을 클릭하세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                for (const key in jsonObject) {
-                    if (jsonObject.hasOwnProperty(key)) {
-                        const row = table.insertRow(-1);
-                        const cellKey = row.insertCell(-1);
-                        const cellValue = row.insertCell(-1);
+            <!-- Alert Section -->
+            <div id="alert" class="alert-message"></div>
 
-                        cellKey.innerHTML = key;
+            <!-- Results Table -->
+            <div id="jsonTable"></div>
 
-                        if (Array.isArray(jsonObject[key])) {
-                            const collapsibleDiv = createCollapsibleDiv(jsonObject[key]);
-                            cellValue.appendChild(collapsibleDiv);
-                        } else if (typeof jsonObject[key] === 'object' && jsonObject[key] !== null) {
-                            const nestedContainer = document.createElement('div');
-                            nestedContainer.style.marginLeft = '20px';
-                            generateTable(jsonObject[key], nestedContainer);
-                            cellValue.appendChild(nestedContainer);
-                        } else {
-                            cellValue.innerHTML = jsonObject[key];
-                        }
-                    }
-                }
+            <!-- Example Section -->
+            <div class="example-section">
+                <h3 class="example-title">
+                    <i class="fas fa-lightbulb"></i>
+                    예제 JSON 데이터
+                </h3>
+                
+                <div class="example-code" id="exampleJSON">{
+  "user": {
+    "id": 12345,
+    "name": "김개발자",
+    "email": "developer@example.com",
+    "isActive": true,
+    "profile": {
+      "age": 28,
+      "location": "서울특별시",
+      "skills": ["JavaScript", "React", "Node.js", "Python"],
+      "experience": {
+        "years": 5,
+        "companies": [
+          {
+            "name": "스타트업 A",
+            "position": "프론트엔드 개발자",
+            "duration": "2019-2021"
+          },
+          {
+            "name": "대기업 B",
+            "position": "풀스택 개발자",
+            "duration": "2021-현재"
+          }
+        ]
+      }
+    },
+    "preferences": {
+      "theme": "dark",
+      "language": "ko",
+      "notifications": {
+        "email": true,
+        "push": false,
+        "sms": null
+      }
+    }
+  }
+}</div>
+                
+                <button onclick="tryExample()" class="try-example-btn">
+                    <i class="fas fa-play"></i> 예제 JSON으로 시도해보기
+                </button>
+            </div>
+        </div>
+    </div>
 
-                container.appendChild(table);
-            } else {
-                container.innerHTML = 'Root element must be an object.';
-            }
-        }
-
-        function createCollapsibleDiv(array) {
-            const div = document.createElement('div');
-            const collapsible = document.createElement('span');
-            collapsible.className = 'collapsible';
-            collapsible.textContent = `Array (${array.length} items)`;
-            
-            const content = document.createElement('div');
-            content.className = 'content';
-
-            array.forEach((item, index) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.textContent = `Item ${index + 1}: `;
-
-                if (typeof item === 'object' && item !== null) {
-                    const nestedContainer = document.createElement('div');
-                    nestedContainer.style.marginLeft = '20px';
-                    generateTable(item, nestedContainer);
-                    itemDiv.appendChild(nestedContainer);
-                } else {
-                    itemDiv.innerHTML += item;
-                }
-
-                content.appendChild(itemDiv);
-            });
-
-            collapsible.onclick = function() {
-                content.style.display = content.style.display === 'block' ? 'none' : 'block';
-            };
-
-            div.appendChild(collapsible);
-            div.appendChild(content);
-
-            return div;
-        }
-    </script>
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script src="js/json-viewer.js"></script>
 </body>
 </html>

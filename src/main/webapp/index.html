@@ -1,92 +1,352 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도구 모음</title>
+    <title>개발자 도구 모음 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+            margin-bottom: 50px;
         }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease;
         }
-        nav a {
-            float: left;
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 50px;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
             display: block;
-            color: white;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .tool-card {
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+        }
+        
+        .tool-card .icon {
+            background: linear-gradient(135deg, #5d87ff 0%, #49beff 100%);
+        }
+        
+        .feature-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+            margin-top: 60px;
+        }
+        
+        .section-title {
             text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-color);
         }
-        nav a:hover { 
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            max-width: 80%;
-            margin: auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        
+        .section-subtitle {
             text-align: center;
+            font-size: 1.1rem;
+            color: var(--muted-color);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        h1 {
-            color: #333;
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
         }
-        .tools {
-            margin-top: 20px;
+        
+        .feature-item {
+            text-align: center;
+            padding: 30px;
         }
-        .tools a {
-            display: inline-block;
-            margin: 10px;
-            padding: 15px 30px;
-            font-size: 16px;
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #13deb9 0%, #06b6d4 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
             color: white;
-            background-color: #4CAF50;
-            text-decoration: none;
-            border-radius: 5px;
         }
-        .tools a:hover {
-            background-color: #45a049;
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
+    </div>
 
-    <div class="container">
-        <h1>도구 모음</h1>
-        <p>사용하려는 도구를 선택하세요:</p>
-        <div class="tools">
-            <a href="json-viewer.html">JSON 뷰어</a>
-            <a href="xml-to-json.html">XML -> JSON 변환기</a>
-            <a href="json-to-xml.html">JSON -> XML 변환기</a>
-            <a href="url-encoder.html">URL 인코딩</a>
-            <a href="url-decoder.html">URL 디코딩</a>        
-            <a href="variable-suggester.html">변수 추천기</a>
-            <a href="http-header-parser.html">HTTP 헤더 파서</a>
-            <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-            <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-            <a href="lunch-recommender.html">점심 추천기</a>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">개발자 도구 모음</h1>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <div class="container">
+                <h1 class="hero-title">개발자를 위한 올인원 도구 모음</h1>
+                <p class="hero-subtitle">
+                    개발 작업을 더 쉽고 빠르게 만들어주는 필수 도구들을 한 곳에서 만나보세요
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">11</span>
+                        <div class="stat-label">유용한 도구</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <div class="stat-label">무료 사용</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <div class="stat-label">언제든 접근</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools Section -->
+        <div class="container">
+            <div class="tools-grid">
+                <a href="json-viewer.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>JSON 뷰어</h3>
+                    <p>JSON 데이터를 구조화된 형태로 보기 쉽게 표시하고 유효성을 검사합니다.</p>
+                </a>
+
+                <a href="xml-to-json.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>XML → JSON 변환기</h3>
+                    <p>XML 형식의 데이터를 JSON 형식으로 빠르고 정확하게 변환합니다.</p>
+                </a>
+
+                <a href="json-to-xml.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <h3>JSON → XML 변환기</h3>
+                    <p>JSON 데이터를 XML 형식으로 변환하여 다양한 시스템과 호환됩니다.</p>
+                </a>
+
+                <a href="url-encoder.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>URL 인코딩</h3>
+                    <p>URL에 포함될 수 없는 특수 문자들을 안전하게 인코딩합니다.</p>
+                </a>
+
+                <a href="url-decoder.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-unlock"></i>
+                    </div>
+                    <h3>URL 디코딩</h3>
+                    <p>인코딩된 URL을 원래 형태로 디코딩하여 읽기 쉽게 만듭니다.</p>
+                </a>
+
+                <a href="variable-suggester.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>변수 추천기</h3>
+                    <p>적절한 변수명을 제안하여 코드의 가독성을 향상시킵니다.</p>
+                </a>
+
+                <a href="http-header-parser.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>HTTP 헤더 파서</h3>
+                    <p>HTTP 요청/응답 헤더를 분석하고 구조화하여 표시합니다.</p>
+                </a>
+
+                <a href="url-parameter-viewer.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>URL 파라미터 뷰어</h3>
+                    <p>URL의 쿼리 파라미터를 분석하고 표 형태로 정리하여 보여줍니다.</p>
+                </a>
+
+                <a href="html-tag-analyzer.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3>HTML 태그 분석기</h3>
+                    <p>HTML 태그의 구조와 속성을 분석하여 체계적으로 표시합니다.</p>
+                </a>
+
+                <a href="lunch-recommender.html" class="tool-card">
+                    <div class="icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>점심 추천기</h3>
+                    <p>개발하다 지친 당신을 위한 맛있는 점심 메뉴를 추천합니다.</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="feature-section">
+            <div class="container">
+                <h2 class="section-title">왜 저희 도구를 선택해야 할까요?</h2>
+                <p class="section-subtitle">
+                    개발자의 생산성을 극대화하기 위해 설계된 직관적이고 강력한 도구들입니다.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>빠른 처리 속도</h3>
+                        <p>최적화된 알고리즘으로 빠르고 정확한 결과를 제공합니다.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>안전한 처리</h3>
+                        <p>모든 데이터는 브라우저에서만 처리되어 개인정보가 보호됩니다.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>반응형 디자인</h3>
+                        <p>모든 기기와 화면 크기에서 완벽하게 작동합니다.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>사용자 친화적</h3>
+                        <p>직관적인 인터페이스로 누구나 쉽게 사용할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
 </body>
 </html>

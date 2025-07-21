@@ -1,160 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>변수 추천기</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        nav {
-            width: 100%;
-            background-color: #333;
-            overflow: hidden;
-        }
-        nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            background-color: #005bb5;
-            color: black;
-        }
-        .container {
-            padding: 20px;
-            max-width: 80%;
-            margin: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        #inputWord {
-            width: 100%;
-            height: 40px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            font-size: 16px;
-        }
-        #suggestions {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ccc;
-            font-size: 16px;
-            overflow-x: auto;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <title>변수 추천기 - Modernize Dashboard</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/modernize-style.css">
+    <link rel="stylesheet" href="css/variable-suggester.css">
 </head>
 <body>
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="json-viewer.html">JSON 뷰어</a>
-        <a href="xml-to-json.html">XML -> JSON 변환기</a>
-        <a href="json-to-xml.html">JSON -> XML 변환기</a>
-        <a href="url-encoder.html">URL 인코딩</a>
-        <a href="url-decoder.html">URL 디코딩</a>        
-        <a href="variable-suggester.html">변수 추천기</a>
-        <a href="http-header-parser.html">HTTP 헤더 파서</a>
-        <a href="url-parameter-viewer.html">URL 파라미터 뷰어</a>
-        <a href="html-tag-analyzer.html">HTML 태그 분석기</a>
-        <a href="lunch-recommender.html">점심 추천기</a>
-    </nav>
-
-    <div class="container">
-        <h1>변수 추천기</h1>
-        <input id="inputWord" placeholder="한글 단어를 입력하세요" />
-        <button onclick="generateSuggestions()">추천 보기</button>
-        <div id="suggestions"></div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2><i class="fas fa-tools"></i> DevTools</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
+                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
+                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
+                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
+                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
+                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
+                <li><a href="variable-suggester.html" class="active"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
+                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
+                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
+                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
+                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <script>
-        async function generateSuggestions() {
-            const inputWord = document.getElementById('inputWord').value.trim();
-            const suggestionsDiv = document.getElementById('suggestions');
-            suggestionsDiv.innerHTML = ''; // Clear previous suggestions
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="topbar">
+            <div class="topbar-left">
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">변수 추천기</h1>
+            </div>
+        </div>
 
-            if (!inputWord) {
-                suggestionsDiv.innerHTML = '입력된 단어가 없습니다. 한글 단어를 입력해주세요.';
-                return;
-            }
+        <div class="container">
+            <div class="suggester-container">
+                <!-- Input Section -->
+                <div class="input-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h2 class="section-title">한글 단어 입력</h2>
+                    </div>
+                    
+                    <input type="text" id="inputWord" class="word-input" placeholder="예: 사용자, 데이터, 목록, 상태 등" />
+                    
+                    <button onclick="generateSuggestions()" id="suggestBtn" class="suggest-btn">
+                        <i class="fas fa-lightbulb"></i>
+                        변수명 추천받기
+                    </button>
+                </div>
 
-            try {
-                const apiKey = 'you_api_key'; // 여기에 OpenAI API 키를 입력하세요.
+                <!-- Output Section -->
+                <div class="output-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h2 class="section-title">추천 변수명</h2>
+                    </div>
+                    
+                    <div id="suggestions" class="suggestions-container">
+                        <div class="empty-state">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>한글 단어를 입력하고 추천 버튼을 클릭하세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                const response = await fetch('https://api.openai.com/v1/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-4",
-                        messages: [
-                            {
-                                role: "system",
-                                content: "You are a helpful assistant. Suggest English variable names based on the input."
-                            },
-                            {
-                                role: "user",
-                                content: `Suggest English variable names for the following word: "${inputWord}"`
-                            }
-                        ],
-                        max_tokens: 100,
-                        temperature: 0.7
-                    })
-                });
+            <!-- Examples Section -->
+            <div class="examples-section">
+                <h3 class="examples-title">
+                    <i class="fas fa-star"></i>
+                    예제 단어들
+                </h3>
+                
+                <div class="example-items">
+                    <div class="example-item" onclick="tryExample('사용자')">
+                        <div class="example-korean">사용자</div>
+                        <div class="example-variables">user, member, customer, account</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('데이터')">
+                        <div class="example-korean">데이터</div>
+                        <div class="example-variables">data, info, information, dataset</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('목록')">
+                        <div class="example-korean">목록</div>
+                        <div class="example-variables">list, array, items, collection</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('상태')">
+                        <div class="example-korean">상태</div>
+                        <div class="example-variables">status, state, condition, flag</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('이름')">
+                        <div class="example-korean">이름</div>
+                        <div class="example-variables">name, title, label, identifier</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('시간')">
+                        <div class="example-korean">시간</div>
+                        <div class="example-variables">time, date, timestamp, duration</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('파일')">
+                        <div class="example-korean">파일</div>
+                        <div class="example-variables">file, document, attachment, media</div>
+                    </div>
+                    
+                    <div class="example-item" onclick="tryExample('설정')">
+                        <div class="example-korean">설정</div>
+                        <div class="example-variables">config, setting, option, parameter</div>
+                    </div>
+                </div>
+            </div>
 
-                if (response.ok) {
-                    const data = await response.json();
-                    const gptSuggestions = data.choices[0].message.content.trim().split(',');
+            <!-- Tips Section -->
+            <div class="examples-section">
+                <h3 class="examples-title">
+                    <i class="fas fa-info-circle"></i>
+                    사용 팁
+                </h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div class="example-item">
+                        <div class="example-korean">명명 규칙</div>
+                        <div class="example-variables">
+                            • camelCase: userName, userList<br>
+                            • snake_case: user_name, user_list<br>
+                            • PascalCase: UserName, UserList
+                        </div>
+                    </div>
+                    
+                    <div class="example-item">
+                        <div class="example-korean">변수 접두사</div>
+                        <div class="example-variables">
+                            • current-, selected-, updated-<br>
+                            • is-, has-, can- (불린값)<br>
+                            • get-, set-, create- (함수)
+                        </div>
+                    </div>
+                    
+                    <div class="example-item">
+                        <div class="example-korean">변수 접미사</div>
+                        <div class="example-variables">
+                            • -List, -Array (배열)<br>
+                            • -Count, -Index (숫자)<br>
+                            • -Data, -Info (정보)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    // 표를 생성하여 추천 변수명만 표시
-                    let tableHTML = '<table><tr><th>추천 변수명</th></tr>';
-
-                    gptSuggestions.forEach(suggestion => {
-                        const variable = suggestion.trim();
-                        if (variable) {
-                            tableHTML += `<tr><td>${variable}</td></tr>`;
-                        }
-                    });
-
-                    tableHTML += '</table>';
-                    suggestionsDiv.innerHTML = tableHTML;
-                } else {
-                    suggestionsDiv.innerHTML = '추천을 생성하는 중 오류가 발생했습니다.';
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                suggestionsDiv.innerHTML = '추천을 생성하는 중 오류가 발생했습니다.';
-            }
-        }
-    </script>
+    <!-- Scripts -->
+    <script src="js/modernize-app.js"></script>
+    <script src="js/variable-suggester.js"></script>
 </body>
 </html>
