@@ -1,41 +1,108 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTTP 헤더 파서 - Modernize Dashboard</title>
-    
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/modernize-style.css">
     <link rel="stylesheet" href="css/http-header-parser.css">
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2><i class="fas fa-tools"></i> DevTools</h2>
+            <div class="logo-container">
+                <i class="fas fa-tools"></i>
+                <h2>DevTools</h2>
+            </div>
+            <button class="sidebar-collapse-btn" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
         </div>
+
+        <div class="sidebar-search">
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="도구 검색..." onkeyup="filterSidebarItems(this.value)">
+            </div>
+        </div>
+
         <nav class="sidebar-menu">
-            <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
-                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
-                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
-                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
-                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
-                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
-                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
-                <li><a href="http-header-parser.html" class="active"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
-                <li><a href="url-parameter-viewer.html"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
-                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
-                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
-            </ul>
+            <div class="menu-section">
+                <div class="section-title">기본 도구</div>
+                <ul>
+                    <li><a href="index.html" data-tooltip="메인 대시보드"><i class="fas fa-home"></i> <span>홈</span></a></li>
+                    <li><a href="json-viewer.html" data-tooltip="JSON 데이터 시각화"><i class="fas fa-code"></i> <span>JSON
+                                뷰어</span></a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">변환 도구</div>
+                <ul>
+                    <li><a href="xml-to-json.html" data-tooltip="XML을 JSON으로 변환"><i class="fas fa-exchange-alt"></i>
+                            <span>XML → JSON</span></a></li>
+                    <li><a href="json-to-xml.html" data-tooltip="JSON을 XML로 변환"><i class="fas fa-exchange-alt"></i>
+                            <span>JSON → XML</span></a></li>
+                    <li><a href="url-encoder.html" data-tooltip="URL 인코딩 도구"><i class="fas fa-link"></i> <span>URL
+                                인코딩</span></a></li>
+                    <li><a href="url-decoder.html" data-tooltip="URL 디코딩 도구"><i class="fas fa-unlock"></i> <span>URL
+                                디코딩</span></a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">분석 도구</div>
+                <ul>
+                    <li><a href="http-header-parser.html" class="active" data-tooltip="HTTP 헤더 분석"><i
+                                class="fas fa-server"></i> <span>HTTP 헤더 파서</span></a></li>
+                    <li><a href="url-parameter-viewer.html" data-tooltip="URL 파라미터 분석"><i class="fas fa-search"></i>
+                            <span>URL 파라미터 뷰어</span></a></li>
+                    <li><a href="html-tag-analyzer.html" data-tooltip="HTML 태그 분석"><i class="fas fa-tags"></i>
+                            <span>HTML 태그 분석기</span></a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">유틸리티</div>
+                <ul>
+                    <li><a href="variable-suggester.html" data-tooltip="변수명 추천"><i class="fas fa-lightbulb"></i>
+                            <span>변수 추천기</span></a></li>
+                    <li><a href="lunch-recommender.html" data-tooltip="점심 메뉴 추천"><i class="fas fa-utensils"></i>
+                            <span>점심 추천기</span></a></li>
+                </ul>
+            </div>
         </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <div class="user-name">개발자</div>
+                    <div class="user-status">온라인</div>
+                </div>
+            </div>
+            <div class="sidebar-actions">
+                <button class="action-btn" data-tooltip="설정">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="action-btn" data-tooltip="도움말">
+                    <i class="fas fa-question-circle"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Main Content -->
@@ -43,8 +110,8 @@
         <!-- Top Bar -->
         <div class="topbar">
             <div class="topbar-left">
-                <button class="sidebar-toggle">
-                    <i class="fas fa-bars"></i>
+                <button class="sidebar-toggle" onclick="toggleSidebar()"></button>
+                <i class="fas fa-bars"></i>
                 </button>
                 <h1 class="page-title">HTTP 헤더 파서</h1>
             </div>
@@ -60,7 +127,7 @@
                         </div>
                         <h2 class="section-title">HTTP 헤더 입력</h2>
                     </div>
-                    
+
                     <textarea id="headerInput" class="header-input" placeholder="여기에 HTTP 헤더를 입력하세요...
 
 예시:
@@ -68,7 +135,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 Accept: application/json
 User-Agent: Mozilla/5.0..."></textarea>
-                    
+
                     <button onclick="parseHeaders()" class="parse-btn">
                         <i class="fas fa-search"></i>
                         헤더 파싱하기
@@ -83,7 +150,7 @@ User-Agent: Mozilla/5.0..."></textarea>
                         </div>
                         <h2 class="section-title">파싱 결과</h2>
                     </div>
-                    
+
                     <div id="parseResults">
                         <div style="text-align: center; color: var(--muted-color); padding: 50px 0;">
                             <i class="fas fa-info-circle" style="font-size: 48px; margin-bottom: 15px;"></i>
@@ -113,22 +180,23 @@ User-Agent: Mozilla/5.0..."></textarea>
                     <i class="fas fa-lightbulb"></i>
                     예제 HTTP 헤더
                 </h3>
-                
+
                 <div class="example-code" id="exampleHeaders">HTTP/1.1 200 OK
-Content-Type: application/json; charset=utf-8
-Content-Length: 1234
-Cache-Control: no-cache, no-store, must-revalidate
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
-Accept: application/json, text/plain, */*
-Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
-Referer: https://example.com/
-X-Requested-With: XMLHttpRequest
-X-CSRF-Token: abc123def456ghi789
-Cookie: sessionId=abc123; theme=dark; lang=ko</div>
-                
+                    Content-Type: application/json; charset=utf-8
+                    Content-Length: 1234
+                    Cache-Control: no-cache, no-store, must-revalidate
+                    Authorization: Bearer
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                    Accept: application/json, text/plain, */*
+                    Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+                    Accept-Encoding: gzip, deflate, br
+                    Connection: keep-alive
+                    User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+                    Referer: https://example.com/
+                    X-Requested-With: XMLHttpRequest
+                    X-CSRF-Token: abc123def456ghi789
+                    Cookie: sessionId=abc123; theme=dark; lang=ko</div>
+
                 <button onclick="tryExample()" class="try-example-btn">
                     <i class="fas fa-play"></i> 예제 헤더로 시도해보기
                 </button>
@@ -139,5 +207,98 @@ Cookie: sessionId=abc123; theme=dark; lang=ko</div>
     <!-- Scripts -->
     <script src="js/modernize-app.js"></script>
     <script src="js/http-header-parser.js"></script>
+    <script>
+        // 사이드바 토글 기능
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('sidebar-collapsed');
+
+            // 사이드바 내부 토글 버튼 아이콘 변경
+            const toggleIcon = document.querySelector('.sidebar-collapse-btn i');
+            if (sidebar.classList.contains('collapsed')) {
+                toggleIcon.className = 'fas fa-chevron-right';
+            } else {
+                toggleIcon.className = 'fas fa-chevron-left';
+            }
+
+            // 햄버거 버튼 아이콘 변경
+            const hamburgerIcon = document.querySelector('.sidebar-toggle i');
+            if (sidebar.classList.contains('collapsed')) {
+                hamburgerIcon.className = 'fas fa-bars';
+            } else {
+                hamburgerIcon.className = 'fas fa-times';
+            }
+        }
+
+        // 사이드바 검색 기능
+        function filterSidebarItems(searchTerm) {
+            const menuItems = document.querySelectorAll('.sidebar-menu li');
+            const sections = document.querySelectorAll('.menu-section');
+
+            searchTerm = searchTerm.toLowerCase();
+
+            sections.forEach(section => {
+                let hasVisibleItems = false;
+                const items = section.querySelectorAll('li');
+
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        hasVisibleItems = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // 섹션 표시/숨김
+                if (hasVisibleItems || searchTerm === '') {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // 툴팁 기능
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipElements = document.querySelectorAll('[data-tooltip]');
+
+            tooltipElements.forEach(element => {
+                element.addEventListener('mouseenter', function (e) {
+                    // 사이드바가 축소된 상태이거나 모바일에서만 툴팁 표시
+                    const sidebar = document.querySelector('.sidebar');
+                    const isMobile = window.innerWidth <= 768;
+
+                    if (sidebar.classList.contains('collapsed') || isMobile) {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip show';
+                        tooltip.textContent = this.getAttribute('data-tooltip');
+                        document.body.appendChild(tooltip);
+
+                        const rect = this.getBoundingClientRect();
+                        tooltip.style.left = rect.right + 15 + 'px';
+                        tooltip.style.top = rect.top + (rect.height / 2) - (tooltip.offsetHeight / 2) + 'px';
+
+                        // 화면 경계 체크
+                        if (tooltip.offsetLeft + tooltip.offsetWidth > window.innerWidth) {
+                            tooltip.style.left = rect.left - tooltip.offsetWidth - 15 + 'px';
+                        }
+                    }
+                });
+
+                element.addEventListener('mouseleave', function () {
+                    const tooltip = document.querySelector('.tooltip');
+                    if (tooltip) {
+                        tooltip.remove();
+                    }
+                });
+            });
+        });
+    </script>
 </body>
+
 </html>
