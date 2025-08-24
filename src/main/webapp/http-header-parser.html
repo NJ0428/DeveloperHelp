@@ -110,8 +110,8 @@
         <!-- Top Bar -->
         <div class="topbar">
             <div class="topbar-left">
-                <button class="sidebar-toggle" onclick="toggleSidebar()"></button>
-                <i class="fas fa-bars"></i>
+                <button class="sidebar-toggle" onclick="toggleSidebar()">
+                    <button class="fas fa-bars"></button>i>
                 </button>
                 <h1 class="page-title">HTTP 헤더 파서</h1>
             </div>
@@ -202,6 +202,84 @@ User-Agent: Mozilla/5.0..."></textarea>
                 </button>
             </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-tools"></i>
+                        <span>DevTools</span>
+                    </div>
+                    <p class="footer-description">
+                        개발자를 위한 유용한 도구들을 모아놓은 웹 애플리케이션입니다.
+                        효율적인 개발 환경을 제공합니다.
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>도구 카테고리</h4>
+                    <ul class="footer-links">
+                        <li><a href="json-viewer.html">JSON 도구</a></li>
+                        <li><a href="xml-to-json.html">변환 도구</a></li>
+                        <li><a href="http-header-parser.html">분석 도구</a></li>
+                        <li><a href="variable-suggester.html">유틸리티</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>빠른 링크</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">홈</a></li>
+                        <li><a href="#" onclick="showAbout()">소개</a></li>
+                        <li><a href="#" onclick="showHelp()">도움말</a></li>
+                        <li><a href="#" onclick="showContact()">문의</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>소셜 미디어</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link" data-tooltip="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="social-link" data-tooltip="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" data-tooltip="LinkedIn">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link" data-tooltip="Discord">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                    </div>
+                    <div class="footer-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <span>1,234+ 사용자</span>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-tools"></i>
+                            <span>11개 도구</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="copyright">
+                        <p>&copy; 2024 DevTools. All rights reserved.</p>
+                        <p>Made with <i class="fas fa-heart text-danger"></i> for developers</p>
+                    </div>
+                    <div class="footer-bottom-links">
+                        <a href="#" onclick="showPrivacy()">개인정보처리방침</a>
+                        <a href="#" onclick="showTerms()">이용약관</a>
+                        <a href="#" onclick="showCookies()">쿠키 정책</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <!-- Scripts -->
@@ -298,6 +376,31 @@ User-Agent: Mozilla/5.0..."></textarea>
                 });
             });
         });
+
+        // 푸터 링크 함수들
+        function showAbout() {
+            alert('DevTools는 개발자들의 생산성 향상을 위해 만들어진 웹 기반 도구 모음입니다.\n\n주요 기능:\n- JSON/XML 변환 및 시각화\n- URL 인코딩/디코딩\n- HTTP 헤더 분석\n- HTML 태그 분석\n- 변수명 추천\n- 그리고 더 많은 유용한 도구들!');
+        }
+
+        function showHelp() {
+            alert('도움말:\n\n1. 사이드바에서 원하는 도구를 선택하세요\n2. 검색 기능을 사용해 도구를 빠르게 찾을 수 있습니다\n3. 햄버거 버튼으로 사이드바를 축소할 수 있습니다\n4. 각 도구는 직관적인 인터페이스를 제공합니다\n\n더 자세한 도움이 필요하시면 문의해 주세요!');
+        }
+
+        function showContact() {
+            alert('문의사항이 있으시면 언제든 연락주세요!\n\n📧 이메일: devtools@example.com\n💬 Discord: DevTools Community\n🐙 GitHub: github.com/devtools\n\n버그 리포트나 기능 제안도 환영합니다!');
+        }
+
+        function showPrivacy() {
+            alert('개인정보처리방침:\n\n• 본 서비스는 사용자의 개인정보를 수집하지 않습니다\n• 모든 데이터 처리는 브라우저 내에서만 이루어집니다\n• 서버로 전송되는 데이터는 없습니다\n• 쿠키는 사용자 설정 저장 목적으로만 사용됩니다');
+        }
+
+        function showTerms() {
+            alert('이용약관:\n\n• 본 서비스는 무료로 제공됩니다\n• 상업적 목적으로 자유롭게 사용 가능합니다\n• 서비스 이용으로 인한 손해에 대해 책임지지 않습니다\n• 서비스는 예고 없이 변경될 수 있습니다\n• 부적절한 사용은 제한될 수 있습니다');
+        }
+
+        function showCookies() {
+            alert('쿠키 정책:\n\n• 필수 쿠키: 사이드바 상태, 테마 설정 등 저장\n• 분석 쿠키: 사용하지 않음\n• 광고 쿠키: 사용하지 않음\n• 마케팅 쿠키: 사용하지 않음\n\n브라우저 설정에서 쿠키를 비활성화할 수 있습니다.');
+        }
     </script>
 </body>
 
