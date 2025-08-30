@@ -19,22 +19,59 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-header">
-            <h2><i class="fas fa-tools"></i> DevTools</h2>
+            <div class="logo-container">
+                <i class="fas fa-tools"></i>
+                <h2>DevTools</h2>
+            </div>
+            <button class="sidebar-collapse-btn" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-left"></i>
+            </button>
         </div>
         <nav class="sidebar-menu">
-            <ul>
-                <li><a href="index.html"><i class="fas fa-home"></i> 홈</a></li>
-                <li><a href="json-viewer.html"><i class="fas fa-code"></i> JSON 뷰어</a></li>
-                <li><a href="xml-to-json.html"><i class="fas fa-exchange-alt"></i> XML → JSON</a></li>
-                <li><a href="json-to-xml.html"><i class="fas fa-exchange-alt"></i> JSON → XML</a></li>
-                <li><a href="url-encoder.html"><i class="fas fa-link"></i> URL 인코딩</a></li>
-                <li><a href="url-decoder.html"><i class="fas fa-unlock"></i> URL 디코딩</a></li>
-                <li><a href="variable-suggester.html"><i class="fas fa-lightbulb"></i> 변수 추천기</a></li>
-                <li><a href="http-header-parser.html"><i class="fas fa-server"></i> HTTP 헤더 파서</a></li>
-                <li><a href="url-parameter-viewer.html" class="active"><i class="fas fa-search"></i> URL 파라미터 뷰어</a></li>
-                <li><a href="html-tag-analyzer.html"><i class="fas fa-tags"></i> HTML 태그 분석기</a></li>
-                <li><a href="lunch-recommender.html"><i class="fas fa-utensils"></i> 점심 추천기</a></li>
-            </ul>
+            <div class="menu-section">
+                <div class="section-title">기본 도구</div>
+                <ul>
+                    <li><a href="index.html" data-tooltip="메인 대시보드"><i class="fas fa-home"></i> <span>홈</span></a></li>
+                    <li><a href="json-viewer.html" data-tooltip="JSON 데이터 시각화"><i class="fas fa-code"></i> <span>JSON
+                                뷰어</span></a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">변환 도구</div>
+                <ul>
+                    <li><a href="xml-to-json.html" data-tooltip="XML을 JSON으로 변환"><i class="fas fa-exchange-alt"></i>
+                            <span>XML → JSON</span></a></li>
+                    <li><a href="json-to-xml.html" data-tooltip="JSON을 XML로 변환"><i class="fas fa-exchange-alt"></i>
+                            <span>JSON → XML</span></a></li>
+                    <li><a href="url-encoder.html" data-tooltip="URL 인코딩 도구"><i class="fas fa-link"></i> <span>URL
+                                인코딩</span></a></li>
+                    <li><a href="url-decoder.html" data-tooltip="URL 디코딩 도구"><i class="fas fa-unlock"></i> <span>URL
+                                디코딩</span></a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">분석 도구</div>
+                <ul>
+                    <li><a href="http-header-parser.html" data-tooltip="HTTP 헤더 분석"><i
+                                class="fas fa-server"></i> <span>HTTP 헤더 파서</span></a></li>
+                    <li><a href="url-parameter-viewer.html" class="active" data-tooltip="URL 파라미터 분석"><i class="fas fa-search"></i>
+                            <span>URL 파라미터 뷰어</span></a></li>
+                    <li><a href="html-tag-analyzer.html" data-tooltip="HTML 태그 분석"><i class="fas fa-tags"></i>
+                            <span>HTML 태그 분석기</span></a></li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="section-title">유틸리티</div>
+                <ul>
+                    <li><a href="variable-suggester.html" data-tooltip="변수명 추천"><i class="fas fa-lightbulb"></i>
+                            <span>변수 추천기</span></a></li>
+                    <li><a href="lunch-recommender.html" data-tooltip="점심 메뉴 추천"><i class="fas fa-utensils"></i>
+                            <span>점심 추천기</span></a></li>
+                </ul>
+            </div>
         </nav>
     </div>
 
